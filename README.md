@@ -1,2 +1,2 @@
-# SteamWorks2017
-Robot code for the 2017 FIRST SteamWorks competition
+# PowerUp 2018
+Robot code for the 2018 FIRST PowerUp competition
