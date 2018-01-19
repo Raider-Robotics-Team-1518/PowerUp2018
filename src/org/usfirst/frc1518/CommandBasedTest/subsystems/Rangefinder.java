@@ -95,7 +95,7 @@ public class Rangefinder extends SensorBase implements LiveWindowSendable {
 		range *= IN_TO_CM_CONVERSION;
 		return range;
 	}
-
+/*
 	@Override
 	public void initTable(ITable subtable) {
 		// TODO Auto-generated method stub
@@ -113,7 +113,7 @@ public class Rangefinder extends SensorBase implements LiveWindowSendable {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
+*/
 	@Override
 	public void updateTable() {
 		// TODO Auto-generated method stub
