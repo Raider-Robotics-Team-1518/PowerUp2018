@@ -1,6 +1,6 @@
-package org.usfirst.frc1518.CommandBasedTest.subsystems;
+package org.usfirst.frc1518.robot.subsystems;
 
-import org.usfirst.frc1518.CommandBasedTest.RobotMap;
+import org.usfirst.frc1518.robot.RobotMap;
 
 import com.ctre.CANTalon;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;

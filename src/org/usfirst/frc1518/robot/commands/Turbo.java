@@ -1,4 +1,4 @@
-package org.usfirst.frc1518.CommandBasedTest.commands;
+package org.usfirst.frc1518.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 

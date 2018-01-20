@@ -1,7 +1,7 @@
-package org.usfirst.frc1518.CommandBasedTest.commands;
+package org.usfirst.frc1518.robot.commands;
 
-import org.usfirst.frc1518.CommandBasedTest.Robot;
-import org.usfirst.frc1518.CommandBasedTest.subsystems.Servos;
+import org.usfirst.frc1518.robot.Robot;
+import org.usfirst.frc1518.robot.subsystems.Servos;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.InstantCommand;

@@ -1,6 +1,6 @@
-package org.usfirst.frc1518.CommandBasedTest.subsystems;
+package org.usfirst.frc1518.robot.subsystems;
 
-import org.usfirst.frc1518.CommandBasedTest.RobotMap;
+import org.usfirst.frc1518.robot.RobotMap;
 
 import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.command.Subsystem;

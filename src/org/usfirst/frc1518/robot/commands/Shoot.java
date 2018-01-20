@@ -1,8 +1,8 @@
-package org.usfirst.frc1518.CommandBasedTest.commands;
+package org.usfirst.frc1518.robot.commands;
 
-import org.usfirst.frc1518.CommandBasedTest.OI;
-import org.usfirst.frc1518.CommandBasedTest.RobotMap;
-import org.usfirst.frc1518.CommandBasedTest.subsystems.Launcher;
+import org.usfirst.frc1518.robot.OI;
+import org.usfirst.frc1518.robot.RobotMap;
+import org.usfirst.frc1518.robot.subsystems.Launcher;
 
 import edu.wpi.first.wpilibj.command.Command;
 
