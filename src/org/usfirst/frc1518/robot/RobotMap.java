@@ -18,6 +18,8 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.interfaces.Gyro;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
+import edu.wpi.first.wpilibj.AnalogAccelerometer;
+import edu.wpi.first.wpilibj.BuiltInAccelerometer;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DigitalOutput;
 import edu.wpi.first.wpilibj.Encoder;
@@ -53,8 +55,12 @@ public class RobotMap {
 	public static WPI_TalonSRX feedSpare1;
 	public static VictorSP shootAgitator;
 	public static WPI_TalonSRX lift;
-	public static Solenoid testSolenoid;
-	public static Solenoid testSolenoid1;
+	public static Solenoid solenoid0;
+	public static Solenoid solenoid1;
+	public static Solenoid solenoid2;
+	public static Solenoid solenoid3;
+	public static Solenoid solenoid4;
+	public static Solenoid solenoid5;
 	public static Talon pwmDriveFL;
 	public static Talon pwmDriveRL;
 	public static Talon pwmDriveFR;
@@ -65,6 +71,7 @@ public class RobotMap {
 	public static DigitalOutput dio8;
 	public static DigitalOutput dio9; 
 	public static Gyro rioGyro;
+	public static BuiltInAccelerometer rioAccel;
 	public static VictorSP pwmLift;
 	public static Compressor comp0;
 	//public static Talon pwmWinch;
@@ -96,8 +103,12 @@ public class RobotMap {
     	servo2 = new Servo(1);
     	//Redundant pneumatics code.
     	comp0 = new Compressor(0);
-    	testSolenoid = new Solenoid(0);
-    	testSolenoid1 = new Solenoid(2);
+    	solenoid0 = new Solenoid(0);
+    	solenoid1 = new Solenoid(1);
+    	solenoid2 = new Solenoid(2);
+    	solenoid3 = new Solenoid(3);
+    	solenoid4 = new Solenoid(4);
+    	solenoid5 = new Solenoid(5);
     	//Digital outputs for LEDs.
     	dio8 = new DigitalOutput(8);
     	dio9 = new DigitalOutput(9);
@@ -105,6 +116,7 @@ public class RobotMap {
 
 		//Gyro 
 		rioGyro = new ADXRS450_Gyro();
+		rioAccel = new BuiltInAccelerometer();
 
 		//Testbot motor setup.
     	//pwmDriveFL.setInverted(true);

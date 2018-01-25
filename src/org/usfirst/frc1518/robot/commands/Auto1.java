@@ -28,42 +28,45 @@ public class Auto1 extends Command {
 	
 	protected void execute() {
 		
-		System.out.println("Starting Auto 1");
+		//System.out.println("Starting Auto 1");
 		taskDone = false;
-		//Drive forward from left side.
-		gyroDrive(-85);
-		Timer.delay(.5);
-		//Turn to face gear station.
-		gyroTurn(55);
-		Timer.delay(.5);
-		//Drive forward to meet gear station.
-		gyroDrive(-33);
-		//Wait for pilot to grab gear.
-		Timer.delay(5);
-		// IF BLUE ALLIANCE BACK UP AND SHOOT
-		if (DriverStation.getInstance().getAlliance().toString() == "Blue") {
-			//Back away from gear station.
-			gyroDrive(12);
-			Timer.delay(.5);
-			//Turn to face boiler.
-			gyroTurn(-180);
-			Timer.delay(.5);
-			//Drive forward not past baseline.
-			gyroDrive(-12);
-			//SHOOT
-			while (RobotState.isAutonomous() == true) {
-				RobotMap.shooterMotor.set(0.9);
-				RobotMap.feedSpare1.set(.7);
-				RobotMap.shootAgitator.set(1);
-				RobotMap.feedMotor1.set(.5);
-
-			}
+		int aTimer = 0;
+		while(aTimer <= 10000)
+		{
+		Robot.m_drive.driveCartesian(0.0, 0.4, 0.0);
+		aTimer++;
 		}
-		RobotMap.shooterMotor.set(0);
-		RobotMap.feedSpare1.set(0);
-		RobotMap.shootAgitator.set(0);
-		RobotMap.feedMotor1.set(0);
-	
+		Robot.m_drive.driveCartesian(0, 0, 0);
+		Timer.delay(0.25);
+		gyroTurn(90);
+		aTimer = 0;
+		while(aTimer <= 10000)
+		{
+		Robot.m_drive.driveCartesian(0.0, 0.4, 0.0);
+		aTimer++;
+		}
+		Robot.m_drive.driveCartesian(0, 0, 0);
+		Timer.delay(0.25);
+		gyroTurn(90);
+		aTimer = 0;
+		while(aTimer <= 10000)
+		{
+		Robot.m_drive.driveCartesian(0.0, 0.4, 0.0);
+		aTimer++;
+		}
+		Robot.m_drive.driveCartesian(0, 0, 0);
+		Timer.delay(0.25);
+		gyroTurn(90);
+		aTimer = 0;
+		while(aTimer <= 10000)
+		{
+		Robot.m_drive.driveCartesian(0.0, 0.4, 0.0);
+		aTimer++;
+		}
+		Robot.m_drive.driveCartesian(0, 0, 0);
+		Timer.delay(0.25);
+		gyroTurn(90);
+
 		end();
 		
 	}
@@ -115,6 +118,9 @@ public class Auto1 extends Command {
    
     public boolean drivenFarEnough(double distance) {
 		//currentPosition = -1 * RobotMap.driveTrainRearLeftWheel.getEncPosition();
+    	double yVal = Robot.rm.rioAccel.getY();
+    	double xVal = Robot.rm.rioAccel.getX();
+    	double zVal = Robot.rm.rioAccel.getZ();
 		targetPulseCount = distance / circumferenceInInches * pulsesPerRotation;
 		//System.out.println("Current Position: " + String.valueOf(currentPosition));
 		//System.out.println("Target Position: " + String.valueOf(targetPulseCount));
@@ -126,7 +132,7 @@ public class Auto1 extends Command {
     public boolean gyroTurn(double targetAngle) {
 		RobotMap.rioGyro.reset();
 			while ((RobotState.isAutonomous() == true) && (Math.abs(readGyro()) < Math.abs(targetAngle)) && (Math.abs(calcP(targetAngle)) > 0.22)) {
-				//Robot.m_drive..arcadeDrive(0, calcP(targetAngle));
+				Robot.m_drive.driveCartesian(0, 0, calcP(targetAngle));//(0, calcP(targetAngle));
 			}
 			stop();	
 			return true;
