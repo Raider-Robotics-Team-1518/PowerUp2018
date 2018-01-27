@@ -12,11 +12,11 @@ public class IntakeToggle extends InstantCommand{
 	}
 	protected void execute(){
 		if(Robot.intakeOn == true){
-			RobotMap.pwmIntake.set(0);
+			//RobotMap.pwmIntake.set(0);
 			Robot.intakeOn = false;
 		}
 		else{
-			RobotMap.pwmIntake.set(1);
+			//RobotMap.pwmIntake.set(1);
 			Robot.intakeOn = true;
 		}
 	}

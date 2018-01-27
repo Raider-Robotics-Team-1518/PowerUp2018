@@ -46,7 +46,6 @@ public class RobotMap {
 	public static WPI_TalonSRX driveTrainFrontRightWheel;
 	public static WPI_TalonSRX driveTrainRearLeftWheel;
 	public static WPI_TalonSRX driveTrainRearRightWheel; 
-	public static Encoder frontLeftEnc;
 	public static WPI_TalonSRX shooterMotor;
 	public static Servo servo1;
 	public static Servo servo2;
@@ -61,13 +60,10 @@ public class RobotMap {
 	public static Solenoid solenoid3;
 	public static Solenoid solenoid4;
 	public static Solenoid solenoid5;
-	public static Talon pwmDriveFL;
-	public static Talon pwmDriveRL;
-	public static Talon pwmDriveFR;
-	public static Talon pwmDriveRR;
-	public static Talon pwmShooter;
-	public static Talon pwmFeeder;
-	public static Talon pwmIntake;
+
+	public static Encoder encoderLRear;
+	public static Encoder encoderRRear;
+	
 	public static DigitalOutput dio8;
 	public static DigitalOutput dio9; 
 	public static Gyro rioGyro;
@@ -83,12 +79,11 @@ public class RobotMap {
     	driveTrainFrontRightWheel = new WPI_TalonSRX(2);
     	driveTrainRearRightWheel = new WPI_TalonSRX(3);
     	driveTrainRearLeftWheel = new WPI_TalonSRX(4);
-    	// Set Follower Mode on rear motors
-    	//driveTrainRearLeftWheel.changeControlMode(CANTalon.TalonControlMode.Follower);
-    	//driveTrainRearLeftWheel.set(4);
-    	//driveTrainRearRightWheel.changeControlMode(CANTalon.TalonControlMode.Follower);
-    	//driveTrainRearRightWheel.set(1);
-    	//frontLeftEnc = new Encoder(10, 11, false, Encoder.EncodingType.k1X);
+    	//Encoders
+    	encoderLRear = new Encoder(0, 1, true, Encoder.EncodingType.k1X);
+    	encoderRRear = new Encoder(2, 3, false, Encoder.EncodingType.k1X);
+
+    	
     	//Shooter subsystem
     	shooterMotor = new WPI_TalonSRX(6);
     	shootAgitator = new VictorSP(7);
@@ -96,9 +91,6 @@ public class RobotMap {
     	feedMotor1 = new WPI_TalonSRX(8);
     	feedSpare1 = new WPI_TalonSRX(5);
     	lift = new WPI_TalonSRX(9);
-    	pwmFeeder = new Talon(8);
-    	//pwmWinch = new Talon(9);
-    	//pwmIntake = new Talon(3);
     	servo1 = new Servo(0);
     	servo2 = new Servo(1);
     	//Redundant pneumatics code.
