@@ -174,7 +174,7 @@ public class Robot extends TimedRobot {
 //    	Servos.servo1.set(Servos.highPosition);
 //      Servos.servo2.set(1 - Servos.highPosition);
         setLights();
-    	m_drive.setSafetyEnabled(false);
+    	m_drive.setSafetyEnabled(true);
 
     }
 
@@ -209,15 +209,15 @@ public class Robot extends TimedRobot {
     		mainstickZ = 0; 
     	}
     	
-    	/* 
-    	SmartDashboard.putString("Joystick-X", String.valueOf(oi.mainstick.getX()));
-    	SmartDashboard.putString("Joystick-Y", String.valueOf(oi.mainstick.getY()));
-    	SmartDashboard.putString("Joystick-Z", String.valueOf(oi.mainstick.getZ()));
-    	*/
+    	 
+    	//SmartDashboard.putNumber("Joystick-X", mainstickX);
+    	//SmartDashboard.putNumber("Joystick-Y", mainstickY);
+    	//SmartDashboard.putNumber("Joystick-Z", mainstickZ);
+    	
     	//double gyroAngle = 0.0; 
     	double gyroAngle = rm.rioGyro.getAngle();
-    	double leftEncoderCnt = rm.encoderLRear.get();
-    	double rightEncoderCnt = rm.encoderRRear.get();
+    	double leftEncoderCnt = rm.winch.getSensorCollection().getPulseWidthPosition();
+    	double rightEncoderCnt = rm.lift.getSensorCollection().getPulseWidthPosition();
     	//double accelX = rm.rioAccel.getX();
     	//double accelY = rm.rioAccel.getY();
     	//double accelZ = rm.rioAccel.getZ();
@@ -228,7 +228,8 @@ public class Robot extends TimedRobot {
     	//SmartDashboard.putNumber("Accel X", accelX);
     	//SmartDashboard.putNumber("Accel Y", accelY);
     	//SmartDashboard.putNumber("Accel Z", accelZ);
-    		m_drive.driveCartesian((Math.pow(mainstickX, 3) * 1), (Math.pow(mainstickY, 3) * -1), (Math.pow(mainstickZ, 3) * .5), 0.0);
+    	
+    	m_drive.driveCartesian((Math.pow(mainstickX, 3) * .75), (Math.pow(mainstickY, 3) * -.75), (Math.pow(mainstickZ, 3) * .5), 0.0);
     	
 //        RobotMap.dio8.pulse(1);
 //        RobotMap.dio9.pulse(0);
