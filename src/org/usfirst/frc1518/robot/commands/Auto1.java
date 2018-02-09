@@ -7,10 +7,11 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.RobotState;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Auto1 extends Command {
-	double circumferenceInInches = 13.6;
-	int pulsesPerRotation = 42;
+	double circumferenceInInches = 25.5;
+	int pulsesPerRotation = 160;
 	//public static RobotDrive drive;
 	double distanceToTravel = 0;
 	double startPosition = 0;
@@ -30,40 +31,10 @@ public class Auto1 extends Command {
 		
 		System.out.println("Starting Auto 1");
 		taskDone = false;
-		//Drive forward from left side.
-		gyroDrive(-85);
-		Timer.delay(.5);
-		//Turn to face gear station.
-		gyroTurn(55);
-		Timer.delay(.5);
-		//Drive forward to meet gear station.
-		gyroDrive(-33);
-		//Wait for pilot to grab gear.
-		Timer.delay(5);
-		// IF BLUE ALLIANCE BACK UP AND SHOOT
-		if (DriverStation.getInstance().getAlliance().toString() == "Blue") {
-			//Back away from gear station.
-			gyroDrive(12);
-			Timer.delay(.5);
-			//Turn to face boiler.
-			gyroTurn(-180);
-			Timer.delay(.5);
-			//Drive forward not past baseline.
-			gyroDrive(-12);
-			//SHOOT
-			while (RobotState.isAutonomous() == true) {
-				RobotMap.shooterMotor.set(0.9);
-				RobotMap.feedSpare1.set(.7);
-				RobotMap.shootAgitator.set(1);
-				RobotMap.feedMotor1.set(.5);
+		strafeDrive(36);
+		Timer.delay(1);
+		strafeDrive(-36);
 
-			}
-		}
-		RobotMap.shooterMotor.set(0);
-		RobotMap.feedSpare1.set(0);
-		RobotMap.shootAgitator.set(0);
-		RobotMap.feedMotor1.set(0);
-	
 		end();
 		
 	}
@@ -80,13 +51,13 @@ public class Auto1 extends Command {
 
     public void stop() {
 		System.out.println("Auto Mode 1 Stopped");
-    	Robot.m_drive.stopMotor();
+    	Robot.m_drive.driveCartesian(0, 0, 0);
     	taskDone = true;
     	
     }
     
     public boolean hasDrivenFarEnough(double startPos, double distance) {
-		//currentPosition = -1 * RobotMap.driveTrainRearLeftWheel.getEncPosition();
+		currentPosition = ((Robot.rm.encoderLRear.get() + Robot.rm.encoderRRear.get()) / 2);
 		targetPulseCount = distance / circumferenceInInches * pulsesPerRotation;
 		targetPosition = startPos + targetPulseCount;
 		//System.out.println("Current Position: " + String.valueOf(currentPosition));
@@ -113,43 +84,84 @@ public class Auto1 extends Command {
 	}
 
    
-    public boolean drivenFarEnough(double distance) {
-		//currentPosition = -1 * RobotMap.driveTrainRearLeftWheel.getEncPosition();
-		targetPulseCount = distance / circumferenceInInches * pulsesPerRotation;
+    public boolean strafeFarEnough(double distance) {
+		currentPosition = ((Math.abs(Robot.rm.encoderLRear.get()) + Math.abs(Robot.rm.encoderRRear.get())) / 2);
+		targetPulseCount = distance / circumferenceInInches * pulsesPerRotation *2;
 		//System.out.println("Current Position: " + String.valueOf(currentPosition));
 		//System.out.println("Target Position: " + String.valueOf(targetPulseCount));
-		if (currentPosition >= targetPulseCount) {
-			return true;
+		if (distance > 0) { // Driving RIGHT
+			currentPosition = ((Math.abs(Robot.rm.encoderLRear.get()) + Math.abs(Robot.rm.encoderRRear.get())) / 2);
+			if (currentPosition >= targetPulseCount) {
+				return true;
+			}
+			else{
+				return false;
+			}
 		}
-		return false;
+		else { // Driving LEFT
+			currentPosition = - ((Math.abs(Robot.rm.encoderLRear.get()) + Math.abs(Robot.rm.encoderRRear.get())) / 2);
+			if (currentPosition <= targetPulseCount) {
+				return true;
+			}
+			else {
+				return false;
+			}
+		}
 	}    
+
     public boolean gyroTurn(double targetAngle) {
-		RobotMap.rioGyro.reset();
+		Robot.rm.rioGyro.reset();
 			while ((RobotState.isAutonomous() == true) && (Math.abs(readGyro()) < Math.abs(targetAngle)) && (Math.abs(calcP(targetAngle)) > 0.22)) {
-				//Robot.m_drive..arcadeDrive(0, calcP(targetAngle));
+				Robot.m_drive.driveCartesian(0, 0, calcP(targetAngle));//(0, calcP(targetAngle));
 			}
 			stop();	
 			return true;
 	}
 	public boolean gyroDrive(double distance) {
-		RobotMap.rioGyro.reset();
-		//startPosition = -1 * RobotMap.driveTrainRearLeftWheel.getEncPosition();
+		Robot.rm.rioGyro.reset();
+		Robot.rm.encoderLRear.reset();
+		Robot.rm.encoderRRear.reset();
+		startPosition = 0; // ((Robot.rm.encoderLRear.get() + Robot.rm.encoderRRear.get()) / 2);
 		while (hasDrivenFarEnough(startPosition, distance) == false) {
+	    	SmartDashboard.putNumber("Left Encoder Count", Robot.rm.encoderLRear.get());
+	    	SmartDashboard.putNumber("Right Encoder Count", Robot.rm.encoderRRear.get());
+
 			double drift = readGyro() / 10;
 			if (distance > 0) {
-			//Robot.driveTrain.drive.arcadeDrive(-0.6, -drift);  // FORWARD
+			Robot.m_drive.driveCartesian(0, 0.3, -drift);  // FORWARD
 			}
 			else {
-				//Robot.driveTrain.drive.arcadeDrive(0.6, -drift);  // REVERSE
+				Robot.m_drive.driveCartesian(0, -0.3, -drift);  // FORWARD
 			}
-			System.out.println("Gyro Heading: " + drift);
+			//System.out.println("Gyro Heading: " + drift);
 		}
 		stop();
 		return true;
 	}
-	
+	public boolean strafeDrive(double distance) {
+		Robot.rm.rioGyro.reset();
+		Robot.rm.encoderLRear.reset();
+		Robot.rm.encoderRRear.reset();
+		startPosition = 0; // ((Robot.rm.encoderLRear.get() + Robot.rm.encoderRRear.get()) / 2);
+		while (strafeFarEnough(distance) == false) {
+	    	SmartDashboard.putNumber("Left Encoder Count", Robot.rm.encoderLRear.get());
+	    	SmartDashboard.putNumber("Right Encoder Count", Robot.rm.encoderRRear.get());
+
+			double drift = readGyro() / 10;
+			if (distance > 0) {
+			Robot.m_drive.driveCartesian(0.3, 0, -drift);  // RIGHT
+			}
+			else {
+				Robot.m_drive.driveCartesian(-0.3, 0, -drift);  // LEFT
+			}
+			//System.out.println("Gyro Heading: " + drift);
+		}
+		stop();
+		return true;
+
+	}
 	protected double readGyro() {
-		double angle = RobotMap.rioGyro.getAngle();
+		double angle = Robot.rm.rioGyro.getAngle();
 		return angle;
 	}
 	protected double calcP(double tAngle) {
