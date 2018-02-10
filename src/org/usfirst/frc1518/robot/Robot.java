@@ -20,6 +20,7 @@ import edu.wpi.cscore.AxisCamera;
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.Compressor;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
@@ -66,6 +67,7 @@ public class Robot extends TimedRobot {
 	public static double mainstickX;
 	public static double mainstickY;
 	public static double mainstickZ;
+	
 
 	SendableChooser<Command> m_chooser = new SendableChooser<>();
 
@@ -90,7 +92,6 @@ public class Robot extends TimedRobot {
         rm.rioGyro.calibrate();
         rm.encoderLRear.reset();
         rm.encoderRRear.reset();
-
         //Camera setup
         cam0 = CameraServer.getInstance().startAutomaticCapture();
         cam0.setResolution(160, 120);
@@ -216,7 +217,7 @@ public class Robot extends TimedRobot {
     	
     	//double gyroAngle = 0.0; 
     	double gyroAngle = rm.rioGyro.getAngle();
-    	double leftEncoderCnt = rm.winch.getSensorCollection().getPulseWidthPosition();
+    	double leftEncoderCnt = rm.climb.getSensorCollection().getPulseWidthPosition();
     	double rightEncoderCnt = rm.lift.getSensorCollection().getPulseWidthPosition();
     	//double accelX = rm.rioAccel.getX();
     	//double accelY = rm.rioAccel.getY();

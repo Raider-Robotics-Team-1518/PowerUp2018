@@ -44,7 +44,10 @@ public static JoystickButton soleButton2;
 public static JoystickButton reverseDrive;
 public static JoystickButton winch;
 public static JoystickButton intake;
-public static JoystickButton lift;
+public static JoystickButton liftup;
+public static JoystickButton liftdown;
+public static JoystickButton climbup;
+public static JoystickButton climbdown;
 public static JoystickButton servoCycle;
 public static JoystickButton rabbitIntake;
 public static JoystickButton unstick;
@@ -61,12 +64,19 @@ public static JoystickButton turbo;
     	/*trigger = new JoystickButton(mainstick, 1);
     	trigger.whileHeld(new Shoot());
     	intake = new JoystickButton(mainstick, 4);   //????
-    	intake.whileHeld(new Feed());
-    	lift = new JoystickButton(mainstick, 11);
-    	lift.whileHeld(new Lift());
+    	intake.whileHeld(new Feed());		*/
+    	liftup = new JoystickButton(mainstick, 5);
+    	liftup.whileHeld(new BoxLifter(true));
+    	liftdown = new JoystickButton(mainstick, 3);
+    	liftdown.whileHeld(new BoxLifter(false));
+    	climbup = new JoystickButton(mainstick, 6);
+    	climbup.whileHeld(new Climber(true));
+    	climbdown = new JoystickButton(mainstick, 4);
+    	climbdown.whileHeld(new Climber(false));
+    	
     	//unstick = new JoystickButton(mainstick, 3);    //?????
     	//unstick.whileHeld(new Unstick());
-    	servoCycle = new JoystickButton(mainstick, 2);
+    	/*servoCycle = new JoystickButton(mainstick, 2);
     	servoCycle.whenPressed(new ExtendServo());
     	turbo = new JoystickButton(mainstick, 5);
     	turbo.whileHeld(new Turbo());					*/

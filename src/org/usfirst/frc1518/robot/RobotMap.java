@@ -22,6 +22,7 @@ import edu.wpi.first.wpilibj.interfaces.Gyro;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.BuiltInAccelerometer;
 import edu.wpi.first.wpilibj.Compressor;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DigitalOutput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Servo;
@@ -49,7 +50,7 @@ public class RobotMap {
 	public static WPI_VictorSPX driveTrainRearLeftWheel;
 	public static WPI_VictorSPX driveTrainRearRightWheel;
 	public static WPI_TalonSRX lift;
-	public static WPI_TalonSRX winch;
+	public static WPI_TalonSRX climb;
 	public static WPI_TalonSRX shooterMotor;
 	public static WPI_TalonSRX intakeMotor;
 	public static Solenoid solenoid0;
@@ -61,6 +62,11 @@ public class RobotMap {
 	
 	public static Servo servo1;
 	public static Servo servo2;
+	
+	public static DigitalInput TopBoxSwitch;
+	/*public static DigitalInput BottomBoxSwitch;
+	public static DigitalInput TopClimbSwitch;
+	public static DigitalInput BottomClimbSwitch;*/
 
 	public static Encoder encoderLRear;
 	public static Encoder encoderRRear;
@@ -92,8 +98,8 @@ public class RobotMap {
     	
     	
     	//Shooter subsystem
-    	winch = new WPI_TalonSRX(6);
-    	winch.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute, 0, 1);
+    	climb = new WPI_TalonSRX(6);
+    	climb.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute, 0, 1);
     	lift = new WPI_TalonSRX(5);
     	lift.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute, 2, 3);
 
@@ -109,6 +115,11 @@ public class RobotMap {
     	dio8 = new DigitalOutput(8);
     	dio9 = new DigitalOutput(9);
     	pwmLift = new VictorSP(9);
+    	
+    	TopBoxSwitch = new DigitalInput(0);
+    	/*BottomBoxSwitch = new DigitalInput(1);
+    	TopClimbSwitch = new DigitalInput(2);
+    	BottomClimbSwitch = new DigitalInput(3);*/
 
 		//Gyro 
 		rioGyro = new ADXRS450_Gyro();
