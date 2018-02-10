@@ -4,13 +4,13 @@ import org.usfirst.frc1518.robot.Robot;
 import org.usfirst.frc1518.robot.subsystems.Pneumatics;
 import edu.wpi.first.wpilibj.command.InstantCommand;
 
-public class ExtendSolenoid extends InstantCommand{
-	boolean actuator0 = false;
-	boolean actuator1 = false;
-	boolean actuator2 = false;
+public class AirActuators extends InstantCommand{
+	boolean actuator0 = false;	//initial state for jaws up
+	boolean actuator1 = false;  //initial state for open jaw
+	boolean actuator2 = false;  //initial state for buddy bar
 	int actNumber;
 
-	public ExtendSolenoid(int actNum) {
+	public AirActuators(int actNum) {
 		// TODO Auto-generated constructor stub
 		actNumber = actNum;
 	}

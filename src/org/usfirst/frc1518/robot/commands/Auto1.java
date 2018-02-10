@@ -24,16 +24,13 @@ public class Auto1 extends Command {
 	
 	public Auto1() {
 		
-		//drive = new RobotDrive(RobotMap.driveTrainRearLeftWheel, RobotMap.driveTrainFrontRightWheel);
 	}
 	
 	protected void execute() {
-		
 		System.out.println("Starting Auto 1");
 		taskDone = false;
-		strafeDrive(36);
-		Timer.delay(1);
-		strafeDrive(-36);
+		gyroDrive(36);
+
 
 		end();
 		
@@ -63,24 +60,26 @@ public class Auto1 extends Command {
 		//System.out.println("Current Position: " + String.valueOf(currentPosition));
 		//System.out.println("Target Position: " + String.valueOf(targetPulseCount));
 		if (RobotState.isAutonomous() == true) {
-		if (distance > 0) { // Driving FORWARD
-			if (currentPosition >= targetPosition) {
-				return true;
+			if (distance > 0) { // Driving FORWARD
+				if (currentPosition >= targetPosition) {
+					return true;
+				}
+				else{
+					return false;
+				}
 			}
-			else{
-				return false;
+			else { // Driving REVERSE
+				if (currentPosition <= targetPosition) {
+					return true;
+				}
+				else {
+					return false;
+				}
 			}
 		}
-		else { // Driving REVERSE
-			if (currentPosition <= targetPosition) {
-				return true;
-			}
-			else {
-				return false;
-			}
+		else {
+			return true;
 		}
-		}
-		else { return true;}
 	}
 
    
@@ -111,11 +110,11 @@ public class Auto1 extends Command {
 
     public boolean gyroTurn(double targetAngle) {
 		Robot.rm.rioGyro.reset();
-			while ((RobotState.isAutonomous() == true) && (Math.abs(readGyro()) < Math.abs(targetAngle)) && (Math.abs(calcP(targetAngle)) > 0.22)) {
-				Robot.m_drive.driveCartesian(0, 0, calcP(targetAngle));//(0, calcP(targetAngle));
-			}
-			stop();	
-			return true;
+		while ((RobotState.isAutonomous() == true) && (Math.abs(readGyro()) < Math.abs(targetAngle)) && (Math.abs(calcP(targetAngle)) > 0.22)) {
+			Robot.m_drive.driveCartesian(0, 0, calcP(targetAngle));//(0, calcP(targetAngle));
+		}
+		stop();	
+		return true;
 	}
 	public boolean gyroDrive(double distance) {
 		Robot.rm.rioGyro.reset();
@@ -125,10 +124,9 @@ public class Auto1 extends Command {
 		while (hasDrivenFarEnough(startPosition, distance) == false) {
 	    	SmartDashboard.putNumber("Left Encoder Count", Robot.rm.encoderLRear.get());
 	    	SmartDashboard.putNumber("Right Encoder Count", Robot.rm.encoderRRear.get());
-
 			double drift = readGyro() / 10;
 			if (distance > 0) {
-			Robot.m_drive.driveCartesian(0, 0.3, -drift);  // FORWARD
+				Robot.m_drive.driveCartesian(0, 0.3, -drift);  // FORWARD
 			}
 			else {
 				Robot.m_drive.driveCartesian(0, -0.3, -drift);  // FORWARD
@@ -146,39 +144,43 @@ public class Auto1 extends Command {
 		while (strafeFarEnough(distance) == false) {
 	    	SmartDashboard.putNumber("Left Encoder Count", Robot.rm.encoderLRear.get());
 	    	SmartDashboard.putNumber("Right Encoder Count", Robot.rm.encoderRRear.get());
-
 			double drift = readGyro() / 10;
 			if (distance > 0) {
-			Robot.m_drive.driveCartesian(0.3, 0, -drift);  // RIGHT
+				Robot.m_drive.driveCartesian(0.3, 0, -drift);  // RIGHT
 			}
 			else {
 				Robot.m_drive.driveCartesian(-0.3, 0, -drift);  // LEFT
 			}
 			//System.out.println("Gyro Heading: " + drift);
 		}
+		
 		stop();
 		return true;
-
 	}
+	
 	protected double readGyro() {
 		double angle = Robot.rm.rioGyro.getAngle();
 		return angle;
 	}
+	
 	protected double calcP(double tAngle) {
-		double p = 0.95 * ((1-(Math.abs(readGyro()) / Math.abs(tAngle))) - 0.05);
-		
+		double p = 0.95 * ((1-(Math.abs(readGyro()) / Math.abs(tAngle))) - 0.05);	
 		if (tAngle > 0) {
 			return p;
 		}
+		
 		else {
 			return (p * -1);
 		}
+		
 	}
+	
 
 	@Override
 	protected boolean isFinished() {
 		System.out.println("Auto Mode 1 isFinished");
 		return taskDone;
+		
 	}
 
 }

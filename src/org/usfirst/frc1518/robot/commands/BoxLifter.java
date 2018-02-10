@@ -1,20 +1,22 @@
 package org.usfirst.frc1518.robot.commands;
 
+import org.usfirst.frc1518.robot.OI;
 import org.usfirst.frc1518.robot.Robot;
 import org.usfirst.frc1518.robot.RobotMap;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.command.Command;
 
 public class BoxLifter extends Command {
 	
-	WPI_TalonSRX lifterMotor = Robot.rm.lift;
+	VictorSP lifterMotor = Robot.rm.lift;
 	DigitalInput TBS = Robot.rm.TopBoxSwitch;
-	//DigitalInput BBS = Robot.rm.BottomBoxSwitch;
+	DigitalInput BBS = Robot.rm.BottomBoxSwitch;
 	boolean mDir;
-	
+
 	public BoxLifter(boolean motorDir) {
 		// TODO Auto-generated constructor stub
 		mDir = motorDir;
@@ -22,12 +24,17 @@ public class BoxLifter extends Command {
 
 	protected void execute() {
 		if (mDir == true) {
-				Robot.rm.lift.set(1);
+			while (OI.liftup.get() && (Robot.rm.TopBoxSwitch.get() == true)) {	
+			Robot.rm.lift.set(1);
+			}
 		}
 		
 		if (mDir == false) {
-				Robot.rm.lift.set(-1);
+			while (OI.liftdown.get() && (Robot.rm.BottomBoxSwitch.get() == true)) {	
+			Robot.rm.lift.set(-1);
+			}
 		}
+		Robot.rm.lift.set(0);
 	}
 	protected void end() {
 		Robot.rm.lift.set(0);
