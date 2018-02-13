@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj.RobotState;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class Auto2 extends Command{
+public class Auto6 extends Command{
 	double circumferenceInInches = 25.5;
 	int pulsesPerRotation = 160;
 	//public static RobotDrive drive;
@@ -24,44 +24,44 @@ public class Auto2 extends Command{
 	String fmscode = DriverStation.getInstance().getGameSpecificMessage();
 	
 	
-	public Auto2() {
+	public Auto6() {
 		// TODO Auto-generated constructor stub
 	}
 	protected void execute() {
-		System.out.println("Starting Auto 2");
+		System.out.println("Starting Auto 6");
 		taskDone = false;
-		closeClaw();
-		rotateOut();
-		driveforward(40);
-		if(fmscode.charAt(0) == 'L') {
-			//left side code
-			strafeleft(70);
+		if (fmscode.charAt(1) == 'L') {
+			closeClaw();
+			rotateOut();
+			driveforward(40);
+			strafeleft(99.7);
+			driveforward(209.25);
+			liftUp(72);
+			straferight(18.9);
+			driveforward(11.6);
+			openClaw();
 		}
 		
 		else {
-			//right side code
-			straferight(70);
+			driveforward(132);
 		}
-
-		liftUp(19);
-		driveforward(61.25);
-		openClaw();
+		
 		end();
 		
 	}
 	
 	protected void end(){
-		System.out.println("Auto Mode 2 Completed");
+		System.out.println("Auto Mode 6 Completed");
 		stop();
 	}
 
 	protected void interrupted() {
 		stop();
-		System.out.println("Auto Mode 2 Interrupted");
+		System.out.println("Auto Mode 6 Interrupted");
 	}
 
     public void stop() {
-		System.out.println("Auto Mode 2 Stopped");
+		System.out.println("Auto Mode 6 Stopped");
     	Robot.m_drive.driveCartesian(0, 0, 0);
     	taskDone = true;
     	
@@ -248,7 +248,7 @@ public class Auto2 extends Command{
 
 	@Override
 	protected boolean isFinished() {
-		System.out.println("Auto Mode 2 isFinished");
+		System.out.println("Auto Mode 6 isFinished");
 		return taskDone;
 	}
 

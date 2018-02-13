@@ -53,7 +53,6 @@ public static JoystickButton turbo;
     	climbdown = new JoystickButton(mainstick, 4);
     	climbdown.whileHeld(new Climber(false));
     	turbo = new JoystickButton(mainstick, 2);
-    	turbo.whileHeld(new Turbo());
     	soleButton0 = new JoystickButton(mainstick, 7);
     	soleButton0.whenPressed(new AirActuators(0));
     	soleButton1 = new JoystickButton(mainstick, 9);

@@ -1,15 +1,25 @@
-package org.usfirst.frc1518.robot.commands;
+/**
+ * 
+ */
+package org.usfirst.frc1518.robot.subsystems;
 
 import org.usfirst.frc1518.robot.Robot;
 
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.RobotState;
-import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class Auto2 extends Command{
-	double circumferenceInInches = 25.5;
-	int pulsesPerRotation = 160;
+/**
+ * @author USX27182
+ *
+ */
+public class Autonomous extends Subsystem {
+
+	/**
+	 * 
+	 */
+	double circumferenceInInches = 28.5;
+	int pulsesPerRotation = 360;
 	//public static RobotDrive drive;
 	double distanceToTravel = 0;
 	double startPosition = 0;
@@ -18,58 +28,16 @@ public class Auto2 extends Command{
 	double targetPulseCount = 0;
 	double targetPosition = 0;
 	double drivePower = 0;
-	boolean taskDone = false;
 
-		//FMS Code
-	String fmscode = DriverStation.getInstance().getGameSpecificMessage();
 	
-	
-	public Auto2() {
+	public Autonomous() {
 		// TODO Auto-generated constructor stub
 	}
-	protected void execute() {
-		System.out.println("Starting Auto 2");
-		taskDone = false;
-		closeClaw();
-		rotateOut();
-		driveforward(40);
-		if(fmscode.charAt(0) == 'L') {
-			//left side code
-			strafeleft(70);
-		}
-		
-		else {
-			//right side code
-			straferight(70);
-		}
 
-		liftUp(19);
-		driveforward(61.25);
-		openClaw();
-		end();
-		
-	}
 	
-	protected void end(){
-		System.out.println("Auto Mode 2 Completed");
-		stop();
-	}
-
-	protected void interrupted() {
-		stop();
-		System.out.println("Auto Mode 2 Interrupted");
-	}
-
-    public void stop() {
-		System.out.println("Auto Mode 2 Stopped");
-    	Robot.m_drive.driveCartesian(0, 0, 0);
-    	taskDone = true;
-    	
-    }
-    
-    public boolean hasDrivenFarEnough(double startPos, double distance) {
+    protected boolean hasDrivenFarEnough(double startPos, double distance) {
 		currentPosition = ((Robot.rm.encoderLRear.get() + Robot.rm.encoderRRear.get()) / 2);
-		targetPulseCount = distance / circumferenceInInches * pulsesPerRotation;
+		targetPulseCount = (distance / circumferenceInInches) * pulsesPerRotation;
 		targetPosition = startPos + targetPulseCount;
 		//System.out.println("Current Position: " + String.valueOf(currentPosition));
 		//System.out.println("Target Position: " + String.valueOf(targetPulseCount));
@@ -97,14 +65,15 @@ public class Auto2 extends Command{
 	}
 
    
-    public boolean strafeFarEnough(double distance) {
-		currentPosition = ((Math.abs(Robot.rm.encoderLRear.get()) + Math.abs(Robot.rm.encoderRRear.get())) / 2);
+    protected boolean strafeFarEnough(double startPos, double distance) {
+		currentPosition = ((Math.abs(Robot.rm.encoderLRear.getRaw()) + Math.abs(Robot.rm.encoderRRear.getRaw())) / 2);
 		targetPulseCount = distance / circumferenceInInches * pulsesPerRotation *2;
+		targetPosition = startPos + targetPulseCount;
 		//System.out.println("Current Position: " + String.valueOf(currentPosition));
 		//System.out.println("Target Position: " + String.valueOf(targetPulseCount));
 		if (distance > 0) { // Driving RIGHT
-			currentPosition = ((Math.abs(Robot.rm.encoderLRear.get()) + Math.abs(Robot.rm.encoderRRear.get())) / 2);
-			if (currentPosition >= targetPulseCount) {
+			currentPosition = ((Math.abs(Robot.rm.encoderLRear.getRaw()) + Math.abs(Robot.rm.encoderRRear.getRaw())) / 2);
+			if (currentPosition >= targetPosition) {
 				return true;
 			}
 			else{
@@ -112,8 +81,8 @@ public class Auto2 extends Command{
 			}
 		}
 		else { // Driving LEFT
-			currentPosition = - ((Math.abs(Robot.rm.encoderLRear.get()) + Math.abs(Robot.rm.encoderRRear.get())) / 2);
-			if (currentPosition <= targetPulseCount) {
+			currentPosition = - ((Math.abs(Robot.rm.encoderLRear.getRaw()) + Math.abs(Robot.rm.encoderRRear.getRaw())) / 2);
+			if (currentPosition <= targetPosition) {
 				return true;
 			}
 			else {
@@ -122,7 +91,7 @@ public class Auto2 extends Command{
 		}
 	}    
 
-    public boolean gyroTurn(double targetAngle) {
+    protected boolean gyroTurn(double targetAngle) {
 		Robot.rm.rioGyro.reset();
 		while ((RobotState.isAutonomous() == true) && (Math.abs(readGyro()) < Math.abs(targetAngle)) && (Math.abs(calcP(targetAngle)) > 0.22)) {
 			Robot.m_drive.driveCartesian(0, 0, calcP(targetAngle));//(0, calcP(targetAngle));
@@ -130,32 +99,35 @@ public class Auto2 extends Command{
 		stop();	
 		return true;
 	}
-	public boolean gyroDrive(double distance) {
+    
+	protected boolean gyroDrive(double distance) {
 		Robot.rm.rioGyro.reset();
 		Robot.rm.encoderLRear.reset();
 		Robot.rm.encoderRRear.reset();
-		startPosition = 0; // ((Robot.rm.encoderLRear.get() + Robot.rm.encoderRRear.get()) / 2);
+		startPosition = 0; //((Robot.rm.encoderLRear.get() + Robot.rm.encoderRRear.get()) / 2);
+		double targetPosition = (distance / circumferenceInInches * pulsesPerRotation);
 		while (hasDrivenFarEnough(startPosition, distance) == false) {
-	    	SmartDashboard.putNumber("Left Encoder Count", Robot.rm.encoderLRear.get());
-	    	SmartDashboard.putNumber("Right Encoder Count", Robot.rm.encoderRRear.get());
+			SmartDashboard.putNumber("Left Encoder Count", Robot.rm.encoderLRear.getRaw());
+	    	SmartDashboard.putNumber("Right Encoder Count", Robot.rm.encoderRRear.getRaw());
 			double drift = readGyro() / 10;
 			if (distance > 0) {
 				Robot.m_drive.driveCartesian(0, 0.3, -drift);  // FORWARD
 			}
 			else {
-				Robot.m_drive.driveCartesian(0, -0.3, -drift);  // FORWARD
+				Robot.m_drive.driveCartesian(0, -0.3, -drift);  // REVERSE
 			}
 			//System.out.println("Gyro Heading: " + drift);
 		}
 		stop();
 		return true;
 	}
-	public boolean strafeDrive(double distance) {
+	
+	protected boolean strafeDrive(double distance) {
 		Robot.rm.rioGyro.reset();
 		Robot.rm.encoderLRear.reset();
 		Robot.rm.encoderRRear.reset();
-		startPosition = 0; // ((Robot.rm.encoderLRear.get() + Robot.rm.encoderRRear.get()) / 2);
-		while (strafeFarEnough(distance) == false) {
+		startPosition = ((Robot.rm.encoderLRear.get() + Robot.rm.encoderRRear.get()) / 2);
+		while (strafeFarEnough(startPosition, distance) == false) {
 	    	SmartDashboard.putNumber("Left Encoder Count", Robot.rm.encoderLRear.get());
 	    	SmartDashboard.putNumber("Right Encoder Count", Robot.rm.encoderRRear.get());
 			double drift = readGyro() / 10;
@@ -173,57 +145,57 @@ public class Auto2 extends Command{
 	}
 	
 		//Terms For Pneumatics
-	protected void openClaw() {
+	public void openClaw() {
 		Robot.rm.solenoid0.set(true);
 		Robot.rm.solenoid1.set(false);
 	}
 	
-	protected void closeClaw() {
+	public void closeClaw() {
 		Robot.rm.solenoid0.set(false);
 		Robot.rm.solenoid1.set(true);
 	}
 	
-	protected void rotateIn() {
+	public void rotateIn() {
 		Robot.rm.solenoid2.set(true);
 		Robot.rm.solenoid3.set(false);
 	}
 	
-	protected void rotateOut() {
+	public void rotateOut() {
 		Robot.rm.solenoid2.set(false);
 		Robot.rm.solenoid3.set(true);
 	}
 		//Terms for Lift
-	protected void liftUp(double height) {
+	public void liftUp(double height) {
 		Robot.rm.lift.set(.5);
 	}
 	
-	protected void liftDown(double height) {
+	public void liftDown(double height) {
 		Robot.rm.lift.set(-.5);
 	}
 	
 		//Drive Directions
-	protected void driveforward(double distance) {
+	public void driveforward(double distance) {
 		gyroDrive(distance);
 	}
 	
-	protected void drivebackward(double distance) {
+	public void drivebackward(double distance) {
 		gyroDrive(-distance);
 	}
 	
-	protected void strafeleft(double distance) {
+	public void strafeleft(double distance) {
 		strafeDrive(-distance);
 	}
 	
-	protected void straferight(double distance) {
+	public void straferight(double distance) {
 		strafeDrive(distance);
 	}
 	
-	protected void turnleft(double degrees) {
-		turnleft(-degrees);
+	public void turnleft(double degrees) {
+		gyroTurn(-degrees);
 	}
 	
-	protected void turnright(double degrees) {
-		turnright(degrees);
+	public void turnright(double degrees) {
+		gyroTurn(degrees);
 	}
 	
 	//--------------------------------------
@@ -245,11 +217,18 @@ public class Auto2 extends Command{
 		
 	}
 	
+	public void stop() {
+
+    	Robot.m_drive.driveCartesian(0, 0, 0);
+    	//taskDone = true;
+    	
+    }
+
 
 	@Override
-	protected boolean isFinished() {
-		System.out.println("Auto Mode 2 isFinished");
-		return taskDone;
+	protected void initDefaultCommand() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

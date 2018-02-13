@@ -54,7 +54,6 @@ public class Robot extends TimedRobot {
     //SubSystems
     public static Pneumatics pneumatics;
     public static boolean turbo;
-    //public static Launcher launcher;
 
     //Setup
     public static double feedSpeed;
@@ -108,12 +107,13 @@ public class Robot extends TimedRobot {
         
         // instantiate the command used for the autonomous period
         m_chooser = new SendableChooser();
+        m_chooser.addDefault("No Auto", null);
         m_chooser.addObject("TestDrive", new Auto1());
         m_chooser.addObject("Home Switch From Middle", new Auto2());
-        //m_chooser.addObject("Middle Station", new Auto3());
-        //m_chooser.addDefault("Do Nothing", new Auto4());
-        //m_chooser.addObject("Drive Forward", new Auto5());
-        //m_chooser.addObject("Middle and Shoot", new Auto6());
+        m_chooser.addObject("Robot Left (Switch)", new Auto3());
+        m_chooser.addObject("Robot Right (Switch)", new Auto4());
+        m_chooser.addObject("Robot Left (Scale)", new Auto5());
+        m_chooser.addObject("Robot Right (Scale)", new Auto6());
         SmartDashboard.putData("AutoMode", m_chooser);
 
         //SETTING BRAKE MODE ON DRIVE MOTORS
@@ -173,12 +173,14 @@ public class Robot extends TimedRobot {
     public void teleopPeriodic() {
         Scheduler.getInstance().run();
         //turbo = true;
-        if (turbo) {
+        if (Robot.oi.turbo.get()) {
         	xDrive = 1.0;
         }
+        
         else {
         	xDrive = 0.75;
         }
+        
     	//COMPUTE JOYSTICK VALUES GIVING DEADSPACE
     	if (Math.abs(oi.mainstick.getX()) >= 0.5) {	
     		mainstickX = oi.mainstick.getX(); 
@@ -206,8 +208,8 @@ public class Robot extends TimedRobot {
     	
     	double gyroAngle = rm.rioGyro.getAngle();
     	SmartDashboard.putNumber("Gyro Angle", gyroAngle);
-    	//SmartDashboard.putNumber("Left Encoder Count", leftEncoderCnt);     PUT BACK
-    	//SmartDashboard.putNumber("Right Encoder Count", rightEncoderCnt);    PUT BACK
+    	SmartDashboard.putNumber("Left Encoder Count", rm.encoderLRear.get());    // PUT BACK
+    	SmartDashboard.putNumber("Right Encoder Count", rm.encoderRRear.get());  //  PUT BACK
     	m_drive.driveCartesian((Math.pow(mainstickX, 3) * xDrive), (Math.pow(mainstickY, 3) * -xDrive), (Math.pow(mainstickZ, 3) * .6), 0.0);
     	//RobotMap.dio8.pulse(1);
     	//RobotMap.dio9.pulse(0);
