@@ -120,7 +120,7 @@ public class RobotMap {
     	//lift.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute, 2, 3);
 
     				//Test Robot
-    	//lift = new VictorSP(0);
+    	lift = new VictorSP(0);
 
     		// Pneumatics
     	comp0 = new Compressor(0);

@@ -18,8 +18,8 @@ public class Autonomous extends Subsystem {
 	/**
 	 * 
 	 */
-	double circumferenceInInches = 28.5;
-	int pulsesPerRotation = 360;
+	double circumferenceInInches = 25.5;
+	int pulsesPerRotation = 285;
 	//public static RobotDrive drive;
 	double distanceToTravel = 0;
 	double startPosition = 0;
@@ -36,17 +36,17 @@ public class Autonomous extends Subsystem {
 
 	
     protected boolean hasDrivenFarEnough(double startPos, double distance) {
-		currentPosition = ((Robot.rm.encoderLRear.get() + Robot.rm.encoderRRear.get()) / 2);
-		targetPulseCount = (distance / circumferenceInInches) * pulsesPerRotation;
+		currentPosition = ((Robot.rm.encoderLRear.get() + Robot.rm.encoderRRear.get()) / 2) ;
+		targetPulseCount = (distance / circumferenceInInches) * pulsesPerRotation ;
 		targetPosition = startPos + targetPulseCount;
-		//System.out.println("Current Position: " + String.valueOf(currentPosition));
-		//System.out.println("Target Position: " + String.valueOf(targetPulseCount));
+		System.out.println("Current Position: " + String.valueOf(currentPosition));
+		System.out.println("Target Position: " + String.valueOf(targetPulseCount));
 		if (RobotState.isAutonomous() == true) {
 			if (distance > 0) { // Driving FORWARD
 				if (currentPosition >= targetPosition) {
 					return true;
 				}
-				else{
+				else {
 					return false;
 				}
 			}
@@ -66,13 +66,13 @@ public class Autonomous extends Subsystem {
 
    
     protected boolean strafeFarEnough(double startPos, double distance) {
-		currentPosition = ((Math.abs(Robot.rm.encoderLRear.getRaw()) + Math.abs(Robot.rm.encoderRRear.getRaw())) / 2);
+		currentPosition = ((Math.abs(Robot.rm.encoderLRear.get()) + Math.abs(Robot.rm.encoderRRear.get())) / 2);
 		targetPulseCount = distance / circumferenceInInches * pulsesPerRotation *2;
 		targetPosition = startPos + targetPulseCount;
 		//System.out.println("Current Position: " + String.valueOf(currentPosition));
 		//System.out.println("Target Position: " + String.valueOf(targetPulseCount));
 		if (distance > 0) { // Driving RIGHT
-			currentPosition = ((Math.abs(Robot.rm.encoderLRear.getRaw()) + Math.abs(Robot.rm.encoderRRear.getRaw())) / 2);
+			currentPosition = ((Math.abs(Robot.rm.encoderLRear.get()) + Math.abs(Robot.rm.encoderRRear.get())) / 2);
 			if (currentPosition >= targetPosition) {
 				return true;
 			}
@@ -81,7 +81,7 @@ public class Autonomous extends Subsystem {
 			}
 		}
 		else { // Driving LEFT
-			currentPosition = - ((Math.abs(Robot.rm.encoderLRear.getRaw()) + Math.abs(Robot.rm.encoderRRear.getRaw())) / 2);
+			currentPosition = - ((Math.abs(Robot.rm.encoderLRear.get()) + Math.abs(Robot.rm.encoderRRear.get())) / 2);
 			if (currentPosition <= targetPosition) {
 				return true;
 			}
@@ -104,11 +104,11 @@ public class Autonomous extends Subsystem {
 		Robot.rm.rioGyro.reset();
 		Robot.rm.encoderLRear.reset();
 		Robot.rm.encoderRRear.reset();
-		startPosition = 0; //((Robot.rm.encoderLRear.get() + Robot.rm.encoderRRear.get()) / 2);
+		startPosition = ((Robot.rm.encoderLRear.get() + Robot.rm.encoderRRear.get()) / 2) ;
 		double targetPosition = (distance / circumferenceInInches * pulsesPerRotation);
 		while (hasDrivenFarEnough(startPosition, distance) == false) {
-			SmartDashboard.putNumber("Left Encoder Count", Robot.rm.encoderLRear.getRaw());
-	    	SmartDashboard.putNumber("Right Encoder Count", Robot.rm.encoderRRear.getRaw());
+			SmartDashboard.putNumber("Left Encoder Count", Robot.rm.encoderLRear.get());
+	    	SmartDashboard.putNumber("Right Encoder Count", Robot.rm.encoderRRear.get());
 			double drift = readGyro() / 10;
 			if (distance > 0) {
 				Robot.m_drive.driveCartesian(0, 0.3, -drift);  // FORWARD
@@ -206,7 +206,7 @@ public class Autonomous extends Subsystem {
 	}
 	
 	protected double calcP(double tAngle) {
-		double p = 0.95 * ((1-(Math.abs(readGyro()) / Math.abs(tAngle))) - 0.05);	
+		double p = 0.7 * ((1-(Math.abs(readGyro()) / Math.abs(tAngle))) - 0.05);	
 		if (tAngle > 0) {
 			return p;
 		}
@@ -219,7 +219,7 @@ public class Autonomous extends Subsystem {
 	
 	public void stop() {
 
-    	Robot.m_drive.driveCartesian(0, 0, 0);
+		Robot.m_drive.driveCartesian(0, -.1, 0);
     	//taskDone = true;
     	
     }

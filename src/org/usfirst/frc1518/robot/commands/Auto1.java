@@ -21,7 +21,21 @@ public class Auto1 extends Command {
 	protected void execute() {
 		System.out.println("Starting Test Drive");
 		taskDone = false;
-		autobot.driveforward(36);
+		autobot.driveforward(24);
+		Timer.delay(1);
+		autobot.turnright(90);
+		Timer.delay(1);
+		autobot.driveforward(24);
+		Timer.delay(1);
+		autobot.turnright(90);
+		Timer.delay(1);
+		autobot.driveforward(24);
+		Timer.delay(1);
+		autobot.turnright(90);
+		Timer.delay(1);
+		autobot.driveforward(24);
+		Timer.delay(1);
+		autobot.turnright(90);
 
 
 		end();

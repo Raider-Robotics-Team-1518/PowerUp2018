@@ -25,13 +25,13 @@ public class BoxLifter extends Command {
 	protected void execute() {
 		if (mDir == true) {
 			while (OI.liftup.get() && (Robot.rm.TopBoxSwitch.get() == true)) {	
-			Robot.rm.lift.set(1);
+			Robot.rm.lift.set(.75);
 			}
 		}
 		
 		if (mDir == false) {
 			while (OI.liftdown.get() && (Robot.rm.BottomBoxSwitch.get() == true)) {	
-			Robot.rm.lift.set(-1);
+			Robot.rm.lift.set(-.75);
 			}
 		}
 		Robot.rm.lift.set(0);
