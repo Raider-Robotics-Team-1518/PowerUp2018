@@ -53,10 +53,10 @@ public class RobotMap {
 	public static WPI_VictorSPX driveTrainRearRightWheel;*/
 	
 		//Aux Controllers
-	//public static WPI_TalonSRX lift;
-	public static VictorSP lift;
-	//public static WPI_TalonSRX climb;
-	public static VictorSP climb;
+	public static WPI_TalonSRX lift;
+	//public static VictorSP lift;
+	public static WPI_TalonSRX climb;
+	//public static VictorSP climb;
 	
 		//Solenoids
 	public static Solenoid solenoid0;
@@ -99,7 +99,6 @@ public class RobotMap {
     	driveTrainFrontRightWheel = new WPI_TalonSRX(2);
     	driveTrainRearRightWheel = new WPI_TalonSRX(3);
     	driveTrainRearLeftWheel = new WPI_TalonSRX(4);
-    	
     		//Encoders
     	encoderLRear = new Encoder(0, 1, true, Encoder.EncodingType.k1X);
     	encoderRRear = new Encoder(2, 3, false, Encoder.EncodingType.k1X);
@@ -108,19 +107,18 @@ public class RobotMap {
     		//Aux controllers
     			//Climb
     				//Main Robot
-    	//climb = new WPI_TalonSRX(6);
-    	//climb.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute, 0, 1);
-    	
+    	climb = new WPI_TalonSRX(5);
+    	climb.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute, 0, 1);
     				//Test Robot
     	//climb = new VictorSP(0);
     	
     			//Lift
 					//Main Robot
-    	//lift = new WPI_TalonSRX(7);
-    	//lift.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute, 2, 3);
+    	lift = new WPI_TalonSRX(6);
+    	lift.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute, 2, 3);
 
     				//Test Robot
-    	lift = new VictorSP(0);
+    	//lift = new VictorSP(0);
 
     		// Pneumatics
     	comp0 = new Compressor(0);

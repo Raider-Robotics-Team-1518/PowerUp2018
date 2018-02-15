@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Auto1 extends Command {
-	Autonomous autobot = new Autonomous();
+	Autonomous auto = new Autonomous();
 	boolean taskDone = false;
 	
 	public Auto1() {
@@ -21,23 +21,7 @@ public class Auto1 extends Command {
 	protected void execute() {
 		System.out.println("Starting Test Drive");
 		taskDone = false;
-		autobot.driveforward(24);
-		Timer.delay(1);
-		autobot.turnright(90);
-		Timer.delay(1);
-		autobot.driveforward(24);
-		Timer.delay(1);
-		autobot.turnright(90);
-		Timer.delay(1);
-		autobot.driveforward(24);
-		Timer.delay(1);
-		autobot.turnright(90);
-		Timer.delay(1);
-		autobot.driveforward(24);
-		Timer.delay(1);
-		autobot.turnright(90);
-
-
+		auto.strafeleft(24);
 		end();
 		
 	}

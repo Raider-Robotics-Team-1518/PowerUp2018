@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.command.Command;
 
 public class Climber extends Command {
 	
-	VictorSP climbMotor = Robot.rm.climb;
+	WPI_TalonSRX climbMotor = Robot.rm.climb;
 	boolean mDir;
 	
 	public Climber(boolean motorDir) {

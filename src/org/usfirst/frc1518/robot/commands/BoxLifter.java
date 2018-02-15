@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj.command.Command;
 
 public class BoxLifter extends Command {
 	
-	VictorSP lifterMotor = Robot.rm.lift;
+	WPI_TalonSRX lifterMotor = Robot.rm.lift;
 	DigitalInput TBS = Robot.rm.TopBoxSwitch;
 	DigitalInput BBS = Robot.rm.BottomBoxSwitch;
 	boolean mDir;

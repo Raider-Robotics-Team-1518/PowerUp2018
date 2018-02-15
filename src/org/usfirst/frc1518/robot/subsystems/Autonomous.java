@@ -6,6 +6,7 @@ package org.usfirst.frc1518.robot.subsystems;
 import org.usfirst.frc1518.robot.Robot;
 
 import edu.wpi.first.wpilibj.RobotState;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -19,7 +20,8 @@ public class Autonomous extends Subsystem {
 	 * 
 	 */
 	double circumferenceInInches = 25.5;
-	int pulsesPerRotation = 285;
+	int pulsesPerRotation = 4096;
+	int liftInPerSec = 6;
 	//public static RobotDrive drive;
 	double distanceToTravel = 0;
 	double startPosition = 0;
@@ -36,7 +38,8 @@ public class Autonomous extends Subsystem {
 
 	
     protected boolean hasDrivenFarEnough(double startPos, double distance) {
-		currentPosition = ((Robot.rm.encoderLRear.get() + Robot.rm.encoderRRear.get()) / 2) ;
+		currentPosition = ((Robot.rm.lift.getSensorCollection().getQuadraturePosition() + Robot.rm.climb.getSensorCollection().getQuadraturePosition()) / 2) ;
+		//currentPosition = ((Robot.rm.encoderLRear.get() + Robot.rm.encoderRRear.get()) / 2) ;
 		targetPulseCount = (distance / circumferenceInInches) * pulsesPerRotation ;
 		targetPosition = startPos + targetPulseCount;
 		System.out.println("Current Position: " + String.valueOf(currentPosition));
@@ -66,13 +69,14 @@ public class Autonomous extends Subsystem {
 
    
     protected boolean strafeFarEnough(double startPos, double distance) {
-		currentPosition = ((Math.abs(Robot.rm.encoderLRear.get()) + Math.abs(Robot.rm.encoderRRear.get())) / 2);
-		targetPulseCount = distance / circumferenceInInches * pulsesPerRotation *2;
-		targetPosition = startPos + targetPulseCount;
+    	currentPosition = ((Robot.rm.lift.getSensorCollection().getQuadraturePosition() + Robot.rm.climb.getSensorCollection().getQuadraturePosition()) / 2) ;
+    	//currentPosition = ((Math.abs(Robot.rm.encoderLRear.get()) + Math.abs(Robot.rm.encoderRRear.get())) / 2);
+		targetPulseCount = distance / circumferenceInInches * pulsesPerRotation *  1.34;		targetPosition = startPos + targetPulseCount;
 		//System.out.println("Current Position: " + String.valueOf(currentPosition));
 		//System.out.println("Target Position: " + String.valueOf(targetPulseCount));
 		if (distance > 0) { // Driving RIGHT
-			currentPosition = ((Math.abs(Robot.rm.encoderLRear.get()) + Math.abs(Robot.rm.encoderRRear.get())) / 2);
+			currentPosition = ((Math.abs(Robot.rm.lift.getSensorCollection().getQuadraturePosition() ) + Math.abs(Robot.rm.climb.getSensorCollection().getQuadraturePosition() )) / 2);
+			//currentPosition = ((Math.abs(Robot.rm.encoderLRear.get()) + Math.abs(Robot.rm.encoderRRear.get())) / 2);
 			if (currentPosition >= targetPosition) {
 				return true;
 			}
@@ -81,7 +85,8 @@ public class Autonomous extends Subsystem {
 			}
 		}
 		else { // Driving LEFT
-			currentPosition = - ((Math.abs(Robot.rm.encoderLRear.get()) + Math.abs(Robot.rm.encoderRRear.get())) / 2);
+			currentPosition = -((Math.abs(Robot.rm.lift.getSensorCollection().getQuadraturePosition() ) + Math.abs(Robot.rm.climb.getSensorCollection().getQuadraturePosition() )) / 2);
+			//currentPosition = - ((Math.abs(Robot.rm.encoderLRear.get()) + Math.abs(Robot.rm.encoderRRear.get())) / 2);
 			if (currentPosition <= targetPosition) {
 				return true;
 			}
@@ -113,11 +118,14 @@ public class Autonomous extends Subsystem {
 			if (distance > 0) {
 				Robot.m_drive.driveCartesian(0, 0.3, -drift);  // FORWARD
 			}
+			
 			else {
 				Robot.m_drive.driveCartesian(0, -0.3, -drift);  // REVERSE
 			}
+			
 			//System.out.println("Gyro Heading: " + drift);
 		}
+		
 		stop();
 		return true;
 	}
@@ -126,17 +134,20 @@ public class Autonomous extends Subsystem {
 		Robot.rm.rioGyro.reset();
 		Robot.rm.encoderLRear.reset();
 		Robot.rm.encoderRRear.reset();
-		startPosition = ((Robot.rm.encoderLRear.get() + Robot.rm.encoderRRear.get()) / 2);
+		startPosition = ((Robot.rm.lift.getSensorCollection().getQuadraturePosition() + Robot.rm.climb.getSensorCollection().getQuadraturePosition()) / 2) ;
+		//startPosition = ((Robot.rm.encoderLRear.get() + Robot.rm.encoderRRear.get()) / 2);
 		while (strafeFarEnough(startPosition, distance) == false) {
-	    	SmartDashboard.putNumber("Left Encoder Count", Robot.rm.encoderLRear.get());
-	    	SmartDashboard.putNumber("Right Encoder Count", Robot.rm.encoderRRear.get());
+	    	SmartDashboard.putNumber("Left Encoder Count", Robot.rm.lift.getSensorCollection().getQuadraturePosition());
+	    	SmartDashboard.putNumber("Right Encoder Count", Robot.rm.climb.getSensorCollection().getQuadraturePosition());
 			double drift = readGyro() / 10;
 			if (distance > 0) {
 				Robot.m_drive.driveCartesian(0.3, 0, -drift);  // RIGHT
 			}
+			
 			else {
 				Robot.m_drive.driveCartesian(-0.3, 0, -drift);  // LEFT
 			}
+			
 			//System.out.println("Gyro Heading: " + drift);
 		}
 		
@@ -164,13 +175,35 @@ public class Autonomous extends Subsystem {
 		Robot.rm.solenoid2.set(false);
 		Robot.rm.solenoid3.set(true);
 	}
-		//Terms for Lift
+	
+		// Terms for Lift
+		// Without encoder on lift assembly, measurement is based on time
+		// To measure based on time, a given rate must be known - inches traveled per second
+		// Set the rate in liftInPerSec constant at top of class
 	public void liftUp(double height) {
-		Robot.rm.lift.set(.5);
+		
+		double liftTime = (height/liftInPerSec) * 1000;
+		double motorTime = 0;
+			while (motorTime <= liftTime) {
+				Robot.rm.lift.set(.5);
+				Timer.delay(50);
+				motorTime = motorTime + 50;
+			}
+			
+			Robot.rm.lift.set(0);
 	}
 	
 	public void liftDown(double height) {
-		Robot.rm.lift.set(-.5);
+	
+		double liftTime = (height/liftInPerSec) * 1000;
+		double motorTime = 0;
+			while (motorTime <= liftTime) {
+				Robot.rm.lift.set(-.5);
+				Timer.delay(50);
+				motorTime = motorTime + 50;
+			}
+			
+			Robot.rm.lift.set(0);
 	}
 	
 		//Drive Directions
