@@ -68,6 +68,9 @@ public class Robot extends TimedRobot {
 	public static double mainstickY;
 	public static double mainstickZ;
 	
+		// AUX "encoders"
+	public static int boxswitch;
+	public static int climbswitch;
 
 	SendableChooser<Command> m_chooser = new SendableChooser<>();
 
@@ -91,16 +94,18 @@ public class Robot extends TimedRobot {
         rm.encoderLRear.reset();
         rm.encoderRRear.reset();
         turbo=false;
+        boxswitch = 0;
+        climbswitch = 0;
 
         //Camera setup
-        cam0 = CameraServer.getInstance().startAutomaticCapture();
+/*        cam0 = CameraServer.getInstance().startAutomaticCapture();
         cam0.setResolution(160, 120);
         cam0.setFPS(15);
         cam0.setBrightness(35);
         cam1 = CameraServer.getInstance().addAxisCamera("10.15.18.100");
         cam1.setResolution(320, 240);
         cam1.setBrightness(40);
-        
+        */
         //Get Alliance from FMS
         alliance = DriverStation.getInstance().getAlliance().toString();
         SmartDashboard.putString("Alliance", alliance);
@@ -121,6 +126,10 @@ public class Robot extends TimedRobot {
         rm.driveTrainFrontRightWheel.setNeutralMode(NeutralMode.Brake);
         rm.driveTrainRearLeftWheel.setNeutralMode(NeutralMode.Brake);
         rm.driveTrainRearRightWheel.setNeutralMode(NeutralMode.Brake);
+        rm.lift.setNeutralMode(NeutralMode.Brake);
+        rm.climb.setNeutralMode(NeutralMode.Brake);
+        rm.lift.setInverted(true);
+        rm.climb.setInverted(true);
     }
 
     /**
@@ -145,6 +154,8 @@ public class Robot extends TimedRobot {
     public void autonomousInit() {
         // schedule the autonomous command (example)
         setLights();
+    	m_drive.setSafetyEnabled(true);
+
         autoMode = (Command) m_chooser.getSelected();
         if (autoMode != null) autoMode.start();
     }
@@ -165,6 +176,8 @@ public class Robot extends TimedRobot {
     	rm.rioGyro.reset();
         setLights();
     	m_drive.setSafetyEnabled(true);
+    	boxswitch = 0;
+        climbswitch = 0;
     }
 
     /**
@@ -225,18 +238,18 @@ public class Robot extends TimedRobot {
     public void setLights() {
         alliance = DriverStation.getInstance().getAlliance().toString();
     	if (alliance == "Red") {
-    		RobotMap.dio8.set(true);
-    		RobotMap.dio9.set(false);
+    		RobotMap.dio8.set(false);
+    		RobotMap.dio9.set(true);
        	}
     	
     	else if (alliance == "Blue"){
-    		RobotMap.dio8.set(false);
-    		RobotMap.dio9.set(true);
+    		RobotMap.dio8.set(true);
+    		RobotMap.dio9.set(false);
     	}
     	
     	else {
-    		RobotMap.dio8.set(false);
-    		RobotMap.dio9.set(false);
+    		RobotMap.dio8.set(true);
+    		RobotMap.dio9.set(true);
        	}
     	
     }

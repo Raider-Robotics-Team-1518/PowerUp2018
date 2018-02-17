@@ -25,7 +25,7 @@ public class Auto3 extends Command{
 		if (fmscode.charAt(0) == 'L') {
 			auto.closeClaw();
 			auto.rotateOut();
-			auto.liftUp(19);
+			auto.liftUp(20);
 			auto.driveforward(140);
 			auto.turnright(90);
 			auto.driveforward(17.05);

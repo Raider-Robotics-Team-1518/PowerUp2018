@@ -21,13 +21,13 @@ public class Climber extends Command {
 
 	protected void execute() {
 		if (mDir == true) {
-			while (OI.climbup.get() && (Robot.rm.TopClimbSwitch.get() == true)) {
+			while (OI.climbup.get() && (Robot.rm.ClimbSwitch.get() == true)) {
 			Robot.rm.climb.set(1);
 			}
 		}
 		
 		if (mDir == false) {
-			while (OI.climbdown.get() && (Robot.rm.BottomClimbSwitch.get() == true)) {
+			while (OI.climbdown.get() && (Robot.rm.ClimbSwitch.get() == true)) {
 			Robot.rm.climb.set(-1);
 			}
 		}

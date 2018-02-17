@@ -55,7 +55,7 @@ public static JoystickButton turbo;
     	turbo = new JoystickButton(mainstick, 2);
     	soleButton0 = new JoystickButton(mainstick, 7);
     	soleButton0.whenPressed(new AirActuators(0));
-    	soleButton1 = new JoystickButton(mainstick, 9);
+    	soleButton1 = new JoystickButton(mainstick, 1);
     	soleButton1.whenPressed(new AirActuators(1));
     	soleButton2 = new JoystickButton(mainstick, 11);
     	soleButton2.whenPressed(new AirActuators(2));

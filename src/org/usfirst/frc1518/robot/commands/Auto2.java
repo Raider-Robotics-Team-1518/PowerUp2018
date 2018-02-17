@@ -33,7 +33,7 @@ public class Auto2 extends Command{
 			auto.straferight(70);
 		}
 
-		auto.liftUp(19);
+		auto.liftUp(20);
 		auto.driveforward(61.25);
 		auto.openClaw();
 		end();
