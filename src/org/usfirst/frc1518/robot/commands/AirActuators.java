@@ -15,12 +15,12 @@ public class AirActuators extends InstantCommand{
 		actNumber = actNum;
 	}
 	
-	protected void execute(){
+	protected void execute() {
 		
-		switch (actNumber){
+		switch (actNumber) {
 		
 		case 0:
-			if(actuator0 == true){
+			if(actuator0 == true) {
 				Pneumatics.one.set(true);
 				Pneumatics.two.set(false);
 				actuator0 = false;
@@ -33,18 +33,18 @@ public class AirActuators extends InstantCommand{
 			break;
 		case 1:
 			if(actuator1 == true){
-				Pneumatics.three.set(true);
-				Pneumatics.four.set(false);
+				Pneumatics.three.set(false);
+				Pneumatics.four.set(true);
 				actuator1 = false;
 			}
 			else {
-				Pneumatics.three.set(false);
-				Pneumatics.four.set(true);
+				Pneumatics.three.set(true);
+				Pneumatics.four.set(false);
 				actuator1 = true;
 			}
 			break;
 		case 2:
-			if(actuator2 == true){
+			if(actuator2 == true) {
 				Pneumatics.five.set(true);
 				Pneumatics.six.set(false);
 				actuator2 = false;

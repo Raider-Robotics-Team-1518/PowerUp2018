@@ -19,9 +19,9 @@ public class Autonomous extends Subsystem {
 	/**
 	 * 
 	 */
-	double circumferenceInInches = 25.5;
+	double circumferenceInInches = 25.7;
 	int pulsesPerRotation = 1024;
-	int liftInPerSec = 6;
+	int liftInPerSec = 8;
 	//public static RobotDrive drive;
 	double distanceToTravel = 0;
 	double startPosition = 0;
@@ -98,7 +98,7 @@ public class Autonomous extends Subsystem {
 
     protected boolean gyroTurn(double targetAngle) {
 		Robot.rm.rioGyro.reset();
-		while ((RobotState.isAutonomous() == true) && (Math.abs(readGyro()) < Math.abs(targetAngle)) && (Math.abs(calcP(targetAngle)) > 0.22)) {
+		while ((RobotState.isAutonomous() == true) && (Math.abs(readGyro()) < Math.abs(targetAngle)) && (Math.abs(calcP(targetAngle)) > 0.15)) {
 			Robot.m_drive.driveCartesian(0, 0, calcP(targetAngle));//(0, calcP(targetAngle));
 		}
 		stop();	
@@ -116,11 +116,11 @@ public class Autonomous extends Subsystem {
 	    	SmartDashboard.putNumber("Right Encoder Count", Robot.rm.encoderRRear.get());
 			double drift = readGyro() / 10;
 			if (distance > 0) {
-				Robot.m_drive.driveCartesian(0, 0.3, -drift);  // FORWARD
+				Robot.m_drive.driveCartesian(0, 0.35, -drift);  // FORWARD
 			}
 			
 			else {
-				Robot.m_drive.driveCartesian(0, -0.3, -drift);  // REVERSE
+				Robot.m_drive.driveCartesian(0, -0.35, -drift);  // REVERSE
 			}
 			
 			//System.out.println("Gyro Heading: " + drift);
@@ -141,11 +141,11 @@ public class Autonomous extends Subsystem {
 	    	SmartDashboard.putNumber("Right Encoder Count", Robot.rm.encoderRRear.get());
 			double drift = readGyro() / 10;
 			if (distance > 0) {
-				Robot.m_drive.driveCartesian(0.3, 0, -drift);  // RIGHT
+				Robot.m_drive.driveCartesian(0.85, 0, -drift);  // RIGHT
 			}
 			
 			else {
-				Robot.m_drive.driveCartesian(-0.3, 0, -drift);  // LEFT
+				Robot.m_drive.driveCartesian(-0.85, 0, -drift);  // LEFT
 			}
 			
 			//System.out.println("Gyro Heading: " + drift);
@@ -157,23 +157,23 @@ public class Autonomous extends Subsystem {
 	
 		//Terms For Pneumatics
 	public void openClaw() {
-		Robot.rm.solenoid0.set(true);
-		Robot.rm.solenoid1.set(false);
+		Robot.rm.solenoid2.set(false);
+		Robot.rm.solenoid3.set(true);
 	}
 	
 	public void closeClaw() {
-		Robot.rm.solenoid0.set(false);
-		Robot.rm.solenoid1.set(true);
-	}
-	
-	public void rotateIn() {
 		Robot.rm.solenoid2.set(true);
 		Robot.rm.solenoid3.set(false);
 	}
 	
+	public void rotateIn() {
+		Robot.rm.solenoid0.set(true);
+		Robot.rm.solenoid1.set(false);
+	}
+	
 	public void rotateOut() {
-		Robot.rm.solenoid2.set(false);
-		Robot.rm.solenoid3.set(true);
+		Robot.rm.solenoid0.set(false);
+		Robot.rm.solenoid1.set(true);
 	}
 	
 		// Terms for Lift
@@ -185,8 +185,8 @@ public class Autonomous extends Subsystem {
 		double liftTime = (height/liftInPerSec) * 1000;
 		double motorTime = 0;
 			while (motorTime <= liftTime) {
-				Robot.rm.lift.set(.5);
-				Timer.delay(50);
+				Robot.rm.lift.set(1.0);
+				Timer.delay(0.050);
 				motorTime = motorTime + 50;
 			}
 			
@@ -198,8 +198,8 @@ public class Autonomous extends Subsystem {
 		double liftTime = (height/liftInPerSec) * 1000;
 		double motorTime = 0;
 			while (motorTime <= liftTime) {
-				Robot.rm.lift.set(-.5);
-				Timer.delay(50);
+				Robot.rm.lift.set(-1.0);
+				Timer.delay(0.050);
 				motorTime = motorTime + 50;
 			}
 			

@@ -94,7 +94,7 @@ public class Robot extends TimedRobot {
         rm.encoderLRear.reset();
         rm.encoderRRear.reset();
         turbo=false;
-        boxswitch = 0;
+        boxswitch = 1;
         climbswitch = 0;
 
         //Camera setup

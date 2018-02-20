@@ -28,24 +28,21 @@ public class BoxLifter extends Command {
 
 	protected void execute() {
 		SmartDashboard.putNumber("BoxLiftCounter", Robot.boxswitch);
-		if (mDir == true) {
-			while (OI.liftup.get() && (Robot.boxswitch <= maxcount)) {	
+		if ((mDir == true)  && (Robot.boxswitch <= maxcount)) {
 			Robot.rm.lift.set(1);
 			if (HasSwitchChanged() ) {
 				Robot.boxswitch++;
 			}
-			}
 		}
-		
-		if (mDir == false) {
-			while (OI.liftdown.get() && (Robot.boxswitch >= mincount)) {	
+		else if ((mDir == false) && (Robot.boxswitch <= mincount)) {
 			Robot.rm.lift.set(-1);
 			if (HasSwitchChanged()) {
 				Robot.boxswitch--;
 			}
-			}
 		}
+		else {
 		Robot.rm.lift.set(0);
+		}
 	}
 
 	protected void end() {

@@ -5,6 +5,7 @@ import org.usfirst.frc1518.robot.subsystems.Autonomous;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.RobotState;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -23,13 +24,22 @@ public class Auto4 extends Command{
 		System.out.println("Starting Auto 4");
 		taskDone = false;
 		if (fmscode.charAt(0) == 'R') {
-			auto.closeClaw();
 			auto.rotateOut();
-			auto.liftUp(19);
 			auto.driveforward(140);
+			Timer.delay(.25);
 			auto.turnleft(90);
+			Timer.delay(.25);
 			auto.driveforward(17.05);
+			Timer.delay(.25);
 			auto.openClaw();
+			Timer.delay(.25);
+			auto.drivebackward(6);
+			Timer.delay(.25);
+			auto.straferight(30);
+			Timer.delay(.25);
+			auto.turnleft(90);
+			Timer.delay(.25);
+			auto.strafeleft(24);
 		}
 		
 		else {

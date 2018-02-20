@@ -20,18 +20,16 @@ public class Climber extends Command {
 	}
 
 	protected void execute() {
-		if (mDir == true) {
-			while (OI.climbup.get() && (Robot.rm.ClimbSwitch.get() == true)) {
+		if ((mDir == true) && (Robot.rm.ClimbSwitch.get() == true)) {
 			Robot.rm.climb.set(1);
-			}
 		}
-		
-		if (mDir == false) {
-			while (OI.climbdown.get() && (Robot.rm.ClimbSwitch.get() == true)) {
+
+		else if ((mDir == false) && (Robot.rm.ClimbSwitch.get() == true)) {
 			Robot.rm.climb.set(-1);
-			}
 		}
+		else {
 		Robot.rm.climb.set(0);
+		}
 	}
 	protected void end() {
 		Robot.rm.climb.set(0);
