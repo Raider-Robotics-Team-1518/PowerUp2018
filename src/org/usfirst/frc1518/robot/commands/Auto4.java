@@ -41,7 +41,11 @@ public class Auto4 extends Command{
 			Timer.delay(.25);
 			auto.strafeleft(24);
 		}
-		
+		else if (fmscode.charAt(1) == 'R') {
+			auto.driveforward(305);
+			Timer.delay(1);
+			auto.turnright(90);
+		}
 		else {
 			auto.driveforward(132);
 		}
