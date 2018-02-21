@@ -20,7 +20,7 @@ public class Autonomous extends Subsystem {
 	 * 
 	 */
 	double circumferenceInInches = 25.7;
-	int pulsesPerRotation = 1024;
+	int pulsesPerRotation = 280;
 	int liftInPerSec = 8;
 	//public static RobotDrive drive;
 	double distanceToTravel = 0;
@@ -30,6 +30,7 @@ public class Autonomous extends Subsystem {
 	double targetPulseCount = 0;
 	double targetPosition = 0;
 	double drivePower = 0;
+	double AUTO_DRIVE_POWER = 0.35;
 
 	
 	public Autonomous() {
@@ -176,6 +177,40 @@ public class Autonomous extends Subsystem {
 		Robot.rm.solenoid1.set(true);
 	}
 	
+	public void driveAndLift(int travel, int height) {
+		boolean isDone = false;
+		boolean highEnough = false;
+		boolean farEnough = false;
+		
+		//set distance to travel and lift
+		//travel = 305;
+		//height = 52;
+		
+		//set initial encoder position and destination count
+		double currentPosition = ((Robot.rm.encoderLRear.get())+ (Robot.rm.encoderRRear.get()) /2);
+		double targetDrvPosition = currentPosition + (travel / circumferenceInInches * pulsesPerRotation);
+		double liftTime = (height/liftInPerSec) + Timer.getFPGATimestamp();
+		//turn on drive motors and lift motor
+		Robot.m_drive.driveCartesian(0,AUTO_DRIVE_POWER, 0);
+		Robot.rm.testlift.set(.75);
+		
+		while (isDone == false) {
+			currentPosition = (Robot.rm.encoderLRear.get() + Robot.rm.encoderRRear.get()) /2;
+			if (currentPosition >= targetDrvPosition) {
+				farEnough = true;
+				Robot.m_drive.driveCartesian(0, 0, 0);
+			} else {
+				Robot.m_drive.driveCartesian(0, AUTO_DRIVE_POWER, 0);
+			}
+			// check lift far enough
+			if (Timer.getFPGATimestamp() >= liftTime) {
+				highEnough = true;
+				Robot.rm.testlift.set(0);
+			}
+			isDone = highEnough && farEnough ? true : false;
+		}
+		
+	}
 		// Terms for Lift
 		// Without encoder on lift assembly, measurement is based on time
 		// To measure based on time, a given rate must be known - inches traveled per second

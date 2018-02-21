@@ -21,7 +21,7 @@ public class Auto1 extends Command {
 	protected void execute() {
 		System.out.println("Starting Test Drive");
 		taskDone = false;
-		auto.driveforward(250);
+		auto.driveAndLift(72, 24);
 		/*Timer.delay(.125);
 		auto.liftUp(24);
 		Timer.delay(.25);

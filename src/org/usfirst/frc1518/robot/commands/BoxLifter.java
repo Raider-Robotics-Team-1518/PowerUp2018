@@ -4,6 +4,7 @@ import org.usfirst.frc1518.robot.OI;
 import org.usfirst.frc1518.robot.Robot;
 import org.usfirst.frc1518.robot.RobotMap;
 
+import com.ctre.phoenix.motorcontrol.can.BaseMotorController;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -12,11 +13,10 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class BoxLifter extends Command {
-	
-	WPI_TalonSRX lifterMotor = Robot.rm.lift;
 	DigitalInput BS = Robot.rm.BoxSwitch;;
 	boolean mDir;
 	boolean switchState = false;
+	
 	int maxcount = 144; // maximum # of time reed switch can be hit
 	//int maxcount = 72; // maximum # of time reed switch can be hit
 	int mincount = 0; // minimum # of times reed switch can be hit
@@ -28,20 +28,39 @@ public class BoxLifter extends Command {
 
 	protected void execute() {
 		SmartDashboard.putNumber("BoxLiftCounter", Robot.boxswitch);
-		if ((mDir == true)  && (Robot.boxswitch <= maxcount)) {
-			Robot.rm.lift.set(1);
-			if (HasSwitchChanged() ) {
-				Robot.boxswitch++;
+		if (Robot.isTestBot == true) {
+			if ((mDir == true)  && (Robot.boxswitch <= maxcount)) {
+				Robot.rm.testlift.set(1);
+				if (HasSwitchChanged() ) {
+					Robot.boxswitch++;
+				}
 			}
-		}
-		else if ((mDir == false) && (Robot.boxswitch <= mincount)) {
-			Robot.rm.lift.set(-1);
-			if (HasSwitchChanged()) {
-				Robot.boxswitch--;
+			else if ((mDir == false) && (Robot.boxswitch <= mincount)) {
+				Robot.rm.testlift.set(-1);
+				if (HasSwitchChanged()) {
+					Robot.boxswitch--;
+				}
+			}
+			else {
+			Robot.rm.lift.set(0);
 			}
 		}
 		else {
-		Robot.rm.lift.set(0);
+			if ((mDir == true)  && (Robot.boxswitch <= maxcount)) {
+				Robot.rm.lift.set(1);
+				if (HasSwitchChanged() ) {
+					Robot.boxswitch++;
+				}
+			}
+			else if ((mDir == false) && (Robot.boxswitch <= mincount)) {
+				Robot.rm.lift.set(-1);
+				if (HasSwitchChanged()) {
+					Robot.boxswitch--;
+				}
+			}
+			else {
+			Robot.rm.lift.set(0);
+			}
 		}
 	}
 

@@ -56,10 +56,10 @@ public class Robot extends TimedRobot {
     public static boolean turbo;
 
     //Setup
+    public static boolean isTestBot = true;			//<------------------- Determine Drive Train Here
     public static double feedSpeed;
 	public static boolean isReversed = true;
 	public static boolean intakeOn;
-	public static boolean isTestBot = true;
 	public static String alliance = "";
 	public static double xDrive;
 	
@@ -87,7 +87,13 @@ public class Robot extends TimedRobot {
     	pn = new Pneumatics();
     	
     	rm.comp0.setClosedLoopControl(true);
+    	if (isTestBot == true) {
+    		m_drive = new MecanumDrive(rm.testdriveTrainFrontLeftWheel, rm.testdriveTrainRearLeftWheel, rm.testdriveTrainFrontRightWheel, rm.testdriveTrainRearRightWheel);
+    	}
+    	else {
     	m_drive = new MecanumDrive(rm.driveTrainFrontLeftWheel, rm.driveTrainRearLeftWheel, rm.driveTrainFrontRightWheel, rm.driveTrainRearRightWheel);
+    	}
+    	
         rm.dio8.set(true);
         rm.dio9.set(true);
         rm.rioGyro.calibrate();

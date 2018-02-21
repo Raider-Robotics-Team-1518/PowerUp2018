@@ -42,11 +42,12 @@ public class Auto3 extends Command{
 			auto.strafeleft(30);
 		}
 		
-		else if (fmscode.charAt(1) == 'L') {
+	else if (fmscode.charAt(1) == 'L') {
 		auto.driveforward(305);
 		Timer.delay(1);
 		auto.turnright(90);
 		}
+		
 	else {
 		auto.driveforward(132);
 			}
@@ -68,7 +69,6 @@ public class Auto3 extends Command{
 		System.out.println("Auto Mode 3 Stopped");
     	Robot.m_drive.driveCartesian(0, 0, 0);
     	taskDone = true;
-    	
     }
     
 
