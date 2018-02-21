@@ -23,8 +23,8 @@ public class Auto3 extends Command{
 	protected void execute() {
 		System.out.println("Starting Auto 3");
 		taskDone = false;
+		auto.rotateOut();
 		if (fmscode.charAt(0) == 'L') {
-			auto.rotateOut();
 			auto.driveforward(120);
 			Timer.delay(1);
 			auto.turnright(90);
@@ -42,15 +42,18 @@ public class Auto3 extends Command{
 			auto.strafeleft(30);
 		}
 		
-	else if (fmscode.charAt(1) == 'L') {
-		auto.driveforward(305);
-		Timer.delay(1);
+		else if (fmscode.charAt(1) == 'L') {
+		auto.driveAndLift(225,52);
+		Timer.delay(.5);
 		auto.turnright(90);
+		Timer.delay(1);
+		auto.driveforward(8);
+		auto.openClaw();
 		}
 		
-	else {
+		else {
 		auto.driveforward(132);
-			}
+		}
 	
 		end();
 	}

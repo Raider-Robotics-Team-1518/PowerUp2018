@@ -19,7 +19,7 @@ public class BoxLifter extends Command {
 	
 	int maxcount = 144; // maximum # of time reed switch can be hit
 	//int maxcount = 72; // maximum # of time reed switch can be hit
-	int mincount = 0; // minimum # of times reed switch can be hit
+	int mincount = 1; // minimum # of times reed switch can be hit
 
 	public BoxLifter(boolean motorDir) {
 		// TODO Auto-generated constructor stub

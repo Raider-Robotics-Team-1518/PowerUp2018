@@ -56,7 +56,7 @@ public class Robot extends TimedRobot {
     public static boolean turbo;
 
     //Setup
-    public static boolean isTestBot = true;			//<------------------- Determine Drive Train Here
+    public static boolean isTestBot = false;			//<------------------- Determine Drive Train Here
     public static double feedSpeed;
 	public static boolean isReversed = true;
 	public static boolean intakeOn;
@@ -132,6 +132,10 @@ public class Robot extends TimedRobot {
         rm.driveTrainFrontRightWheel.setNeutralMode(NeutralMode.Brake);
         rm.driveTrainRearLeftWheel.setNeutralMode(NeutralMode.Brake);
         rm.driveTrainRearRightWheel.setNeutralMode(NeutralMode.Brake);
+        rm.testdriveTrainFrontLeftWheel.setNeutralMode(NeutralMode.Brake);
+        rm.testdriveTrainFrontRightWheel.setNeutralMode(NeutralMode.Brake);
+        rm.testdriveTrainRearLeftWheel.setNeutralMode(NeutralMode.Brake);
+        rm.testdriveTrainRearRightWheel.setNeutralMode(NeutralMode.Brake);
         rm.lift.setNeutralMode(NeutralMode.Brake);
         rm.climb.setNeutralMode(NeutralMode.Brake);
         rm.lift.setInverted(true);

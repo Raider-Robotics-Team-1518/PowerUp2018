@@ -21,37 +21,57 @@ public class Auto4 extends Command{
 		// TODO Auto-generated constructor stub
 	}
 	protected void execute() {
-		System.out.println("Starting Auto 4");
+		System.out.println("Starting Auto 3");
+		System.out.println("FMS code " + fmscode);
 		taskDone = false;
+		auto.rotateOut();
 		if (fmscode.charAt(0) == 'R') {
-			auto.rotateOut();
-			auto.driveforward(140);
-			Timer.delay(.25);
+			System.out.println("FMS code " + fmscode.charAt(0));
+			auto.driveforward(120);
+			Timer.delay(1);
 			auto.turnleft(90);
-			Timer.delay(.25);
-			auto.driveforward(17.05);
-			Timer.delay(.25);
+			Timer.delay(1);
+			auto.driveforward(6);
+			Timer.delay(1);
 			auto.openClaw();
 			Timer.delay(.25);
-			auto.drivebackward(6);
-			Timer.delay(.25);
-			auto.straferight(30);
-			Timer.delay(.25);
-			auto.turnleft(90);
-			Timer.delay(.25);
-			auto.strafeleft(24);
-		}
-		else if (fmscode.charAt(1) == 'R') {
-			auto.driveforward(305);
+			auto.rotateIn();
+			auto.drivebackward(12);
 			Timer.delay(1);
 			auto.turnright(90);
+			Timer.delay(1);
+			auto.driveforward(36);
+			Timer.delay(1);
+			auto.turnleft(90);
+			Timer.delay(1);
+			auto.driveforward(28);
+			Timer.delay(1);
+			auto.turnleft(85);
+			auto.liftDown(24);
+			auto.rotateOut();
+			/*auto.straferight(62);
+			Timer.delay(1);
+			auto.turnleft(90);
+			Timer.delay(1);
+			auto.straferight(28);*/
 		}
+		
+		else if (fmscode.charAt(1) == 'R') {
+		System.out.println("FMS code " + fmscode.charAt(1));
+		auto.driveAndLift(120,52);
+		Timer.delay(.5);
+		auto.turnleft(90);
+		Timer.delay(1);
+		auto.driveforward(8);
+		Timer.delay(1);
+		auto.openClaw();
+		}
+		
 		else {
-			auto.driveforward(132);
+		auto.driveforward(132);
 		}
-		
+	
 		end();
-		
 	}
 	
 	protected void end(){

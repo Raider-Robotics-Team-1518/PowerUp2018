@@ -19,9 +19,10 @@ public class Autonomous extends Subsystem {
 	/**
 	 * 
 	 */
-	double circumferenceInInches = 25.7;
-	int pulsesPerRotation = 280;
-	int liftInPerSec = 8;
+	double circumferenceInInches = 25.875;
+	int pulsesPerRotation = 1024;
+	//int pulsesPerRotation = 315;
+	double liftInPerSec = 8;
 	//public static RobotDrive drive;
 	double distanceToTravel = 0;
 	double startPosition = 0;
@@ -30,7 +31,7 @@ public class Autonomous extends Subsystem {
 	double targetPulseCount = 0;
 	double targetPosition = 0;
 	double drivePower = 0;
-	double AUTO_DRIVE_POWER = 0.35;
+	double AUTO_DRIVE_POWER = 0.5;
 
 	
 	public Autonomous() {
@@ -43,8 +44,8 @@ public class Autonomous extends Subsystem {
 		currentPosition = ((Robot.rm.encoderLRear.get() + Robot.rm.encoderRRear.get()) / 2) ;
 		targetPulseCount = (distance / circumferenceInInches) * pulsesPerRotation ;
 		targetPosition = startPos + targetPulseCount;
-		System.out.println("Current Position: " + String.valueOf(currentPosition));
-		System.out.println("Target Position: " + String.valueOf(targetPulseCount));
+		//System.out.println("Current Position: " + String.valueOf(currentPosition));
+		//System.out.println("Target Position: " + String.valueOf(targetPulseCount));
 		if (RobotState.isAutonomous() == true) {
 			if (distance > 0) { // Driving FORWARD
 				if (currentPosition >= targetPosition) {
@@ -99,7 +100,7 @@ public class Autonomous extends Subsystem {
 
     protected boolean gyroTurn(double targetAngle) {
 		Robot.rm.rioGyro.reset();
-		while ((RobotState.isAutonomous() == true) && (Math.abs(readGyro()) < Math.abs(targetAngle)) && (Math.abs(calcP(targetAngle)) > 0.15)) {
+		while ((RobotState.isAutonomous() == true) && (Math.abs(readGyro()) < Math.abs(targetAngle)) && (Math.abs(calcP(targetAngle)) > 0.25)) {
 			Robot.m_drive.driveCartesian(0, 0, calcP(targetAngle));//(0, calcP(targetAngle));
 		}
 		stop();	
@@ -117,11 +118,11 @@ public class Autonomous extends Subsystem {
 	    	SmartDashboard.putNumber("Right Encoder Count", Robot.rm.encoderRRear.get());
 			double drift = readGyro() / 10;
 			if (distance > 0) {
-				Robot.m_drive.driveCartesian(0, 0.35, -drift);  // FORWARD
+				Robot.m_drive.driveCartesian(0, AUTO_DRIVE_POWER, -drift);  // FORWARD
 			}
 			
 			else {
-				Robot.m_drive.driveCartesian(0, -0.35, -drift);  // REVERSE
+				Robot.m_drive.driveCartesian(0, -AUTO_DRIVE_POWER, -drift);  // REVERSE
 			}
 			
 			//System.out.println("Gyro Heading: " + drift);
@@ -142,11 +143,11 @@ public class Autonomous extends Subsystem {
 	    	SmartDashboard.putNumber("Right Encoder Count", Robot.rm.encoderRRear.get());
 			double drift = readGyro() / 10;
 			if (distance > 0) {
-				Robot.m_drive.driveCartesian(0.85, 0, -drift);  // RIGHT
+				Robot.m_drive.driveCartesian(0.65, 0, -drift);  // RIGHT
 			}
 			
 			else {
-				Robot.m_drive.driveCartesian(-0.85, 0, -drift);  // LEFT
+				Robot.m_drive.driveCartesian(-0.65, 0, -drift);  // LEFT
 			}
 			
 			//System.out.println("Gyro Heading: " + drift);
@@ -192,20 +193,21 @@ public class Autonomous extends Subsystem {
 		double liftTime = (height/liftInPerSec) + Timer.getFPGATimestamp();
 		//turn on drive motors and lift motor
 		Robot.m_drive.driveCartesian(0,AUTO_DRIVE_POWER, 0);
-		Robot.rm.testlift.set(.75);
+		Robot.rm.lift.set(.75);
 		
 		while (isDone == false) {
 			currentPosition = (Robot.rm.encoderLRear.get() + Robot.rm.encoderRRear.get()) /2;
 			if (currentPosition >= targetDrvPosition) {
 				farEnough = true;
 				Robot.m_drive.driveCartesian(0, 0, 0);
-			} else {
+			} 
+			else {
 				Robot.m_drive.driveCartesian(0, AUTO_DRIVE_POWER, 0);
 			}
 			// check lift far enough
 			if (Timer.getFPGATimestamp() >= liftTime) {
 				highEnough = true;
-				Robot.rm.testlift.set(0);
+				Robot.rm.lift.set(0);
 			}
 			isDone = highEnough && farEnough ? true : false;
 		}
@@ -230,7 +232,7 @@ public class Autonomous extends Subsystem {
 	
 	public void liftDown(double height) {
 	
-		double liftTime = (height/liftInPerSec) * 1000;
+		double liftTime = (Math.abs(height)/liftInPerSec) * 1000;
 		double motorTime = 0;
 			while (motorTime <= liftTime) {
 				Robot.rm.lift.set(-1.0);
@@ -247,7 +249,7 @@ public class Autonomous extends Subsystem {
 	}
 	
 	public void drivebackward(double distance) {
-		gyroDrive(-distance);
+		gyroDrive(-Math.abs(distance));
 	}
 	
 	public void strafeleft(double distance) {
@@ -274,7 +276,7 @@ public class Autonomous extends Subsystem {
 	}
 	
 	protected double calcP(double tAngle) {
-		double p = 0.7 * ((1-(Math.abs(readGyro()) / Math.abs(tAngle))) - 0.05);	
+		double p = 1 * ((1-(Math.abs(readGyro()) / Math.abs(tAngle))) - 0.05);	
 		if (tAngle > 0) {
 			return p;
 		}
