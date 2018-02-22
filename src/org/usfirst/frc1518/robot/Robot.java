@@ -20,6 +20,7 @@ import edu.wpi.cscore.AxisCamera;
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.Compressor;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
@@ -51,21 +52,25 @@ public class Robot extends TimedRobot {
 	public static AxisCamera cam1;
 	
     //SubSystems
-    public static Servos servos;
     public static Pneumatics pneumatics;
-    public static Launcher launcher;
+    public static boolean turbo;
 
     //Setup
+    public static boolean isTestBot = false;			//<------------------- Determine Drive Train Here
     public static double feedSpeed;
 	public static boolean isReversed = true;
 	public static boolean intakeOn;
-	public static boolean isTestBot = true;
 	public static String alliance = "";
+	public static double xDrive;
 	
 	//Joystick Deadspace Controls
 	public static double mainstickX;
 	public static double mainstickY;
 	public static double mainstickZ;
+	
+		// AUX "encoders"
+	public static int boxswitch;
+	public static int climbswitch;
 
 	SendableChooser<Command> m_chooser = new SendableChooser<>();
 
@@ -79,46 +84,62 @@ public class Robot extends TimedRobot {
         oi = new OI();
     	rm = new RobotMap();
     	rm.init();
-
     	pn = new Pneumatics();
     	
     	rm.comp0.setClosedLoopControl(true);
+    	if (isTestBot == true) {
+    		m_drive = new MecanumDrive(rm.testdriveTrainFrontLeftWheel, rm.testdriveTrainRearLeftWheel, rm.testdriveTrainFrontRightWheel, rm.testdriveTrainRearRightWheel);
+    	}
+    	else {
     	m_drive = new MecanumDrive(rm.driveTrainFrontLeftWheel, rm.driveTrainRearLeftWheel, rm.driveTrainFrontRightWheel, rm.driveTrainRearRightWheel);
-    	servos = new Servos();
+    	}
+    	
         rm.dio8.set(true);
         rm.dio9.set(true);
         rm.rioGyro.calibrate();
         rm.encoderLRear.reset();
         rm.encoderRRear.reset();
+        turbo=false;
+        boxswitch = 1;
+        climbswitch = 0;
 
         //Camera setup
-        cam0 = CameraServer.getInstance().startAutomaticCapture();
+/*        cam0 = CameraServer.getInstance().startAutomaticCapture();
         cam0.setResolution(160, 120);
         cam0.setFPS(15);
         cam0.setBrightness(35);
         cam1 = CameraServer.getInstance().addAxisCamera("10.15.18.100");
         cam1.setResolution(320, 240);
         cam1.setBrightness(40);
-        
+        */
         //Get Alliance from FMS
         alliance = DriverStation.getInstance().getAlliance().toString();
         SmartDashboard.putString("Alliance", alliance);
         
         // instantiate the command used for the autonomous period
         m_chooser = new SendableChooser();
-        m_chooser.addObject("Left Drop Off Gear", new Auto1());
-        //m_chooser.addObject("Right Drop Off Gear", new Auto2());
-        //m_chooser.addObject("Middle Station", new Auto3());
-        //m_chooser.addDefault("Do Nothing", new Auto4());
-        //m_chooser.addObject("Drive Forward", new Auto5());
-        //m_chooser.addObject("Middle and Shoot", new Auto6());
-        SmartDashboard.putData("Autonomous Mode Selection", m_chooser);
+        m_chooser.addDefault("No Auto", null);
+        m_chooser.addObject("TestDrive", new Auto1());
+        m_chooser.addObject("Home Switch From Middle", new Auto2());
+        m_chooser.addObject("Robot Left (Switch)", new Auto3());
+        m_chooser.addObject("Robot Right (Switch)", new Auto4());
+        m_chooser.addObject("Robot Left (Scale)", new Auto5());
+        m_chooser.addObject("Robot Right (Scale)", new Auto6());
+        SmartDashboard.putData("AutoMode", m_chooser);
 
         //SETTING BRAKE MODE ON DRIVE MOTORS
         rm.driveTrainFrontLeftWheel.setNeutralMode(NeutralMode.Brake);
         rm.driveTrainFrontRightWheel.setNeutralMode(NeutralMode.Brake);
         rm.driveTrainRearLeftWheel.setNeutralMode(NeutralMode.Brake);
         rm.driveTrainRearRightWheel.setNeutralMode(NeutralMode.Brake);
+        rm.testdriveTrainFrontLeftWheel.setNeutralMode(NeutralMode.Brake);
+        rm.testdriveTrainFrontRightWheel.setNeutralMode(NeutralMode.Brake);
+        rm.testdriveTrainRearLeftWheel.setNeutralMode(NeutralMode.Brake);
+        rm.testdriveTrainRearRightWheel.setNeutralMode(NeutralMode.Brake);
+        rm.lift.setNeutralMode(NeutralMode.Brake);
+        rm.climb.setNeutralMode(NeutralMode.Brake);
+        rm.lift.setInverted(true);
+        rm.climb.setInverted(true);
     }
 
     /**
@@ -131,28 +152,20 @@ public class Robot extends TimedRobot {
     	rm.rioGyro.reset();
         rm.encoderLRear.reset();
         rm.encoderRRear.reset();
-
-/*    	RobotMap.driveTrainFrontLeftWheel.setInverted(true);
-    	RobotMap.driveTrainFrontRightWheel.setInverted(true);
-    	RobotMap.driveTrainRearLeftWheel.setInverted(true);
-    	RobotMap.driveTrainRearRightWheel.setInverted(true);
-*/
     	isReversed = true;
-    	//RobotMap.pwmIntake.set(0);
     	intakeOn = false;
     	m_drive.stopMotor();
-
     }
 
     public void disabledPeriodic() {
         Scheduler.getInstance().run();
-
     }
 
     public void autonomousInit() {
         // schedule the autonomous command (example)
         setLights();
-    	//rm.rioGyro.reset();
+    	m_drive.setSafetyEnabled(true);
+
         autoMode = (Command) m_chooser.getSelected();
         if (autoMode != null) autoMode.start();
     }
@@ -171,11 +184,10 @@ public class Robot extends TimedRobot {
         // this line or comment it out.
         if (autoMode != null) autoMode.cancel();
     	rm.rioGyro.reset();
-//    	Servos.servo1.set(Servos.highPosition);
-//      Servos.servo2.set(1 - Servos.highPosition);
         setLights();
     	m_drive.setSafetyEnabled(true);
-
+    	boxswitch = 0;
+        climbswitch = 0;
     }
 
     /**
@@ -183,56 +195,47 @@ public class Robot extends TimedRobot {
      */
     public void teleopPeriodic() {
         Scheduler.getInstance().run();
+        //turbo = true;
+        if (Robot.oi.turbo.get()) {
+        	xDrive = 1.0;
+        }
+        
+        else {
+        	xDrive = 0.75;
+        }
+        
     	//COMPUTE JOYSTICK VALUES GIVING DEADSPACE
-    	if(Math.abs(oi.mainstick.getX()) >= 0.5) 
-    	{	
+    	if (Math.abs(oi.mainstick.getX()) >= 0.5) {	
     		mainstickX = oi.mainstick.getX(); 
     	}
-    	else 
-    	{ 
+    	
+    	else { 
     		mainstickX = 0; 
     	}
-    	if(Math.abs(oi.mainstick.getY()) >= 0.5) 
-    	{	
+    	
+    	if (Math.abs(oi.mainstick.getY()) >= 0.5) {	
     		mainstickY = oi.mainstick.getY(); 
     	}
-    	else 
-    	{ 
+    	
+    	else { 
     		mainstickY = 0; 
     	}
-    	if(Math.abs(oi.mainstick.getZ()) >= 0.25) 
-    	{	
+    	
+    	if (Math.abs(oi.mainstick.getZ()) >= 0.25) {	
     		mainstickZ = oi.mainstick.getZ(); 
     	}
-    	else 
-    	{ 
+    	
+    	else { 
     		mainstickZ = 0; 
     	}
     	
-    	 
-    	//SmartDashboard.putNumber("Joystick-X", mainstickX);
-    	//SmartDashboard.putNumber("Joystick-Y", mainstickY);
-    	//SmartDashboard.putNumber("Joystick-Z", mainstickZ);
-    	
-    	//double gyroAngle = 0.0; 
     	double gyroAngle = rm.rioGyro.getAngle();
-    	double leftEncoderCnt = rm.winch.getSensorCollection().getPulseWidthPosition();
-    	double rightEncoderCnt = rm.lift.getSensorCollection().getPulseWidthPosition();
-    	//double accelX = rm.rioAccel.getX();
-    	//double accelY = rm.rioAccel.getY();
-    	//double accelZ = rm.rioAccel.getZ();
-    	
     	SmartDashboard.putNumber("Gyro Angle", gyroAngle);
-    	SmartDashboard.putNumber("Left Encoder Count", leftEncoderCnt);
-    	SmartDashboard.putNumber("Right Encoder Count", rightEncoderCnt);
-    	//SmartDashboard.putNumber("Accel X", accelX);
-    	//SmartDashboard.putNumber("Accel Y", accelY);
-    	//SmartDashboard.putNumber("Accel Z", accelZ);
-    	
-    	m_drive.driveCartesian((Math.pow(mainstickX, 3) * .75), (Math.pow(mainstickY, 3) * -.75), (Math.pow(mainstickZ, 3) * .5), 0.0);
-    	
-//        RobotMap.dio8.pulse(1);
-//        RobotMap.dio9.pulse(0);
+    	SmartDashboard.putNumber("Left Encoder Count", rm.encoderLRear.get());    // PUT BACK
+    	SmartDashboard.putNumber("Right Encoder Count", rm.encoderRRear.get());  //  PUT BACK
+    	m_drive.driveCartesian((Math.pow(mainstickX, 3) * xDrive), (Math.pow(mainstickY, 3) * -xDrive), (Math.pow(mainstickZ, 3) * .6), 0.0);
+    	//RobotMap.dio8.pulse(1);
+    	//RobotMap.dio9.pulse(0);
     }
 
     /**
@@ -245,16 +248,20 @@ public class Robot extends TimedRobot {
     public void setLights() {
         alliance = DriverStation.getInstance().getAlliance().toString();
     	if (alliance == "Red") {
-    		RobotMap.dio8.set(true);
-    		RobotMap.dio9.set(false);
-       	}
-    	else if (alliance == "Blue"){
     		RobotMap.dio8.set(false);
     		RobotMap.dio9.set(true);
-    	}
-    	else {
-    		RobotMap.dio8.set(false);
-    		RobotMap.dio9.set(false);
        	}
+    	
+    	else if (alliance == "Blue"){
+    		RobotMap.dio8.set(true);
+    		RobotMap.dio9.set(false);
+    	}
+    	
+    	else {
+    		RobotMap.dio8.set(true);
+    		RobotMap.dio9.set(true);
+       	}
+    	
     }
+    
 }
