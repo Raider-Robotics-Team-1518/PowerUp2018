@@ -25,34 +25,34 @@ public class Auto3 extends Command{
 		taskDone = false;
 		auto.rotateOut();
 		if (fmscode.charAt(0) == 'L') {
-			auto.driveforward(120);
+			auto.driveForward(120);
 			Timer.delay(1);
-			auto.turnright(90);
+			auto.turnRight(90);
 			Timer.delay(1);
-			auto.driveforward(17.05);
+			auto.driveForward(17.05);
 			Timer.delay(1);
 			auto.openClaw();
 			Timer.delay(.25);
-			auto.drivebackward(6);
+			auto.driveBackward(6);
 			Timer.delay(1);
-			auto.strafeleft(40);
+			auto.strafeLeft(40);
 			Timer.delay(1);
-			auto.turnright(90);
+			auto.turnRight(90);
 			Timer.delay(1);
-			auto.strafeleft(30);
+			auto.strafeLeft(30);
 		}
 		
 		else if (fmscode.charAt(1) == 'L') {
 		auto.driveAndLift(225,52);
 		Timer.delay(.5);
-		auto.turnright(90);
+		auto.turnRight(90);
 		Timer.delay(1);
-		auto.driveforward(8);
+		auto.driveForward(8);
 		auto.openClaw();
 		}
 		
 		else {
-		auto.driveforward(132);
+		auto.driveForward(132);
 		}
 	
 		end();

@@ -20,8 +20,8 @@ public class Autonomous extends Subsystem {
 	 * 
 	 */
 	double circumferenceInInches = 25.875;
-	int pulsesPerRotation = 1024;
-	//int pulsesPerRotation = 315;
+	//int pulsesPerRotation = 1024;
+	int pulsesPerRotation = 315;
 	double liftInPerSec = 8;
 	//public static RobotDrive drive;
 	double distanceToTravel = 0;
@@ -244,27 +244,27 @@ public class Autonomous extends Subsystem {
 	}
 	
 		//Drive Directions
-	public void driveforward(double distance) {
+	public void driveForward(double distance) {
 		gyroDrive(distance);
 	}
 	
-	public void drivebackward(double distance) {
+	public void driveBackward(double distance) {
 		gyroDrive(-Math.abs(distance));
 	}
 	
-	public void strafeleft(double distance) {
+	public void strafeLeft(double distance) {
 		strafeDrive(-distance);
 	}
 	
-	public void straferight(double distance) {
+	public void strafeRight(double distance) {
 		strafeDrive(distance);
 	}
 	
-	public void turnleft(double degrees) {
+	public void turnLeft(double degrees) {
 		gyroTurn(-degrees);
 	}
 	
-	public void turnright(double degrees) {
+	public void turnRight(double degrees) {
 		gyroTurn(degrees);
 	}
 	

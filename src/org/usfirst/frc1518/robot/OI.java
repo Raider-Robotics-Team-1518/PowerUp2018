@@ -35,23 +35,23 @@ public static Joystick mainstick;
 public static JoystickButton soleButton0;
 public static JoystickButton soleButton1;
 public static JoystickButton soleButton2;
-public static JoystickButton liftup;
-public static JoystickButton liftdown;
-public static JoystickButton climbup;
-public static JoystickButton climbdown;
+public static JoystickButton liftUp;
+public static JoystickButton liftDown;
+public static JoystickButton climbUp;
+public static JoystickButton climbDown;
 public static JoystickButton turbo;
 
     public OI() {
 
     	mainstick = new Joystick(0);
-    	liftup = new JoystickButton(mainstick, 5);
-    	liftup.whileHeld(new BoxLifter(true));
-    	liftdown = new JoystickButton(mainstick, 3);
-    	liftdown.whileHeld(new BoxLifter(false));
-    	climbup = new JoystickButton(mainstick, 6);
-    	climbup.whileHeld(new Climber(true));
-    	climbdown = new JoystickButton(mainstick, 4);
-    	climbdown.whileHeld(new Climber(false));
+    	liftUp = new JoystickButton(mainstick, 5);
+    	liftUp.whileHeld(new BoxLifter(true));
+    	liftDown = new JoystickButton(mainstick, 3);
+    	liftDown.whileHeld(new BoxLifter(false));
+    	climbUp = new JoystickButton(mainstick, 6);
+    	climbUp.whileHeld(new Climber(true));
+    	climbDown = new JoystickButton(mainstick, 4);
+    	climbDown.whileHeld(new Climber (false));
     	turbo = new JoystickButton(mainstick, 2);
     	soleButton0 = new JoystickButton(mainstick, 7);
     	soleButton0.whenPressed(new AirActuators(0));

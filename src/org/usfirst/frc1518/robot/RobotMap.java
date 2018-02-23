@@ -61,7 +61,7 @@ public class RobotMap {
 	public static WPI_TalonSRX climb;
 	
 				//Test Robot
-	public static VictorSP testlift;
+	public static VictorSP testLift;
 	//public static VictorSP testclimb;
 	
 		//Solenoids
@@ -124,7 +124,7 @@ public class RobotMap {
     	//lift.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute, 2, 3);
 
     					//Test Robot
-    	testlift = new VictorSP(0);
+    	testLift = new VictorSP(0);
 
     		// Pneumatics
     	comp0 = new Compressor(0);

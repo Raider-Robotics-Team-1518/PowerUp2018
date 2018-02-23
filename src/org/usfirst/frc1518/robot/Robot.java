@@ -56,7 +56,7 @@ public class Robot extends TimedRobot {
     public static boolean turbo;
 
     //Setup
-    public static boolean isTestBot = false;			//<------------------- Determine Drive Train Here
+    public static boolean isTestBot = true;			//<------------------- Determine Drive Train Here
     public static double feedSpeed;
 	public static boolean isReversed = true;
 	public static boolean intakeOn;
@@ -69,8 +69,8 @@ public class Robot extends TimedRobot {
 	public static double mainstickZ;
 	
 		// AUX "encoders"
-	public static int boxswitch;
-	public static int climbswitch;
+	public static int boxSwitch;
+	public static int climbSwitch;
 
 	SendableChooser<Command> m_chooser = new SendableChooser<>();
 
@@ -100,8 +100,8 @@ public class Robot extends TimedRobot {
         rm.encoderLRear.reset();
         rm.encoderRRear.reset();
         turbo=false;
-        boxswitch = 1;
-        climbswitch = 0;
+        boxSwitch = 1;
+        climbSwitch = 0;
 
         //Camera setup
 /*        cam0 = CameraServer.getInstance().startAutomaticCapture();
@@ -123,8 +123,6 @@ public class Robot extends TimedRobot {
         m_chooser.addObject("Home Switch From Middle", new Auto2());
         m_chooser.addObject("Robot Left (Switch)", new Auto3());
         m_chooser.addObject("Robot Right (Switch)", new Auto4());
-        m_chooser.addObject("Robot Left (Scale)", new Auto5());
-        m_chooser.addObject("Robot Right (Scale)", new Auto6());
         SmartDashboard.putData("AutoMode", m_chooser);
 
         //SETTING BRAKE MODE ON DRIVE MOTORS
@@ -186,8 +184,8 @@ public class Robot extends TimedRobot {
     	rm.rioGyro.reset();
         setLights();
     	m_drive.setSafetyEnabled(true);
-    	boxswitch = 0;
-        climbswitch = 0;
+    	boxSwitch = 0;
+        climbSwitch = 0;
     }
 
     /**
