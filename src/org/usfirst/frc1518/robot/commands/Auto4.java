@@ -21,10 +21,11 @@ public class Auto4 extends Command{
 		// TODO Auto-generated constructor stub
 	}
 	protected void execute() {
-		System.out.println("Starting Auto 3");
+		System.out.println("Starting Auto 4");
 		System.out.println("FMS code " + fmscode);
 		taskDone = false;
 		auto.rotateOut();
+		fmscode = DriverStation.getInstance().getGameSpecificMessage().toString();
 		if (fmscode.charAt(0) == 'R') {
 			System.out.println("FMS code " + fmscode.charAt(0));
 			auto.driveForward(120);

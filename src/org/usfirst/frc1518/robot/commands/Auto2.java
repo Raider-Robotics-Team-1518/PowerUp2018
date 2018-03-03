@@ -41,8 +41,13 @@ public class Auto2 extends Command{
 		}
 	
 		Timer.delay(.5);
+<<<<<<< HEAD
 		auto.driveForward(61.25);
 		Timer.delay(.5);
+=======
+		auto.driveforward(60);
+		Timer.delay(1.5);
+>>>>>>> master
 		auto.openClaw();
 		end();
 		

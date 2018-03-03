@@ -24,6 +24,7 @@ public class Auto3 extends Command{
 		System.out.println("Starting Auto 3");
 		taskDone = false;
 		auto.rotateOut();
+		fmscode = DriverStation.getInstance().getGameSpecificMessage().toString();
 		if (fmscode.charAt(0) == 'L') {
 			auto.driveForward(120);
 			Timer.delay(1);
@@ -47,7 +48,12 @@ public class Auto3 extends Command{
 		Timer.delay(.5);
 		auto.turnRight(90);
 		Timer.delay(1);
+<<<<<<< HEAD
 		auto.driveForward(8);
+=======
+		auto.driveforward(8);
+		Timer.delay(1);
+>>>>>>> master
 		auto.openClaw();
 		}
 		
