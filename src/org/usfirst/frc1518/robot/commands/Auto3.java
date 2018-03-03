@@ -48,12 +48,8 @@ public class Auto3 extends Command{
 		Timer.delay(.5);
 		auto.turnRight(90);
 		Timer.delay(1);
-<<<<<<< HEAD
 		auto.driveForward(8);
-=======
-		auto.driveforward(8);
 		Timer.delay(1);
->>>>>>> master
 		auto.openClaw();
 		}
 		
