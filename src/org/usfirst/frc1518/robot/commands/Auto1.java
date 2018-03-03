@@ -13,7 +13,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Auto1 extends Command {
 	Autonomous auto = new Autonomous();
 	boolean taskDone = false;
-	
+	String fmscode = DriverStation.getInstance().getGameSpecificMessage();
+
 	public Auto1() {
 		
 	}
@@ -21,19 +22,29 @@ public class Auto1 extends Command {
 	protected void execute() {
 		System.out.println("Starting Test Drive");
 		taskDone = false;
-		auto.driveAndLift(72, 24);
-		/*Timer.delay(.125);
-		auto.liftUp(24);
-		Timer.delay(.25);
+		taskDone = false;
 		auto.rotateOut();
 		auto.driveforward(12);
-		Timer.delay(.25);
-		auto.strafeleft(70);
 		Timer.delay(.5);
-		auto.driveforward(78);
-		Timer.delay(.25);
-		auto.closeClaw();
-		Timer.delay(.5);*/
+		fmscode = DriverStation.getInstance().getGameSpecificMessage().toString();
+		if (fmscode.length() > 0) {
+			if(fmscode.charAt(0) == 'L') {
+				//left side code
+				auto.straferight(70);
+			}
+		
+			else {
+				//right side code
+				auto.strafeleft(70);
+			}
+		}
+		else {
+			auto.strafeleft(70);
+		}
+	
+		Timer.delay(.5);
+		auto.driveforward(60);
+		Timer.delay(.5);
 		end();
 		
 	}

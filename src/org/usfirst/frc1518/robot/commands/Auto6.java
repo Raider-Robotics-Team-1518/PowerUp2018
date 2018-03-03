@@ -5,6 +5,7 @@ import org.usfirst.frc1518.robot.subsystems.Autonomous;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.RobotState;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -22,6 +23,7 @@ public class Auto6 extends Command{
 	protected void execute() {
 		System.out.println("Starting Auto 6");
 		taskDone = false;
+		fmscode = DriverStation.getInstance().getGameSpecificMessage().toString();
 		if (fmscode.charAt(1) == 'L') {
 			auto.closeClaw();
 			auto.rotateOut();
@@ -31,6 +33,7 @@ public class Auto6 extends Command{
 			auto.liftUp(72);
 			auto.straferight(18.9);
 			auto.driveforward(11.6);
+			Timer.delay(1);
 			auto.openClaw();
 		}
 		
