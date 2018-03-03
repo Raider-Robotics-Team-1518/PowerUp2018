@@ -56,7 +56,7 @@ public class Robot extends TimedRobot {
     public static boolean turbo;
 
     //Setup
-    public static boolean isTestBot = true;			//<------------------- Determine Drive Train Here
+    public static boolean isTestBot = false;			//<------------------- Determine Drive Train Here
     public static double feedSpeed;
 	public static boolean isReversed = true;
 	public static boolean intakeOn;
@@ -195,7 +195,7 @@ public class Robot extends TimedRobot {
         Scheduler.getInstance().run();
         //turbo = true;
         if (Robot.oi.turbo.get()) {
-        	xDrive = 1.0;
+        	xDrive = 0.85;
         }
         
         else {

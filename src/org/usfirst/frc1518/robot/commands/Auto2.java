@@ -33,7 +33,7 @@ public class Auto2 extends Command{
 		
 			else {
 				//right side code
-				auto.strafeRight(70);
+				auto.strafeRight(65);
 			}
 		}
 		else {
@@ -41,7 +41,7 @@ public class Auto2 extends Command{
 		}
 	
 		Timer.delay(.5);
-		auto.driveForward(60);
+		auto.driveForward(55);
 		Timer.delay(1.5);
 		auto.openClaw();
 		end();
