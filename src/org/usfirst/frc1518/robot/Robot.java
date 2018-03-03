@@ -107,11 +107,11 @@ public class Robot extends TimedRobot {
 /*        cam0 = CameraServer.getInstance().startAutomaticCapture();
         cam0.setResolution(160, 120);
         cam0.setFPS(15);
-        cam0.setBrightness(35);
+        cam0.setBrightness(35);  */
         cam1 = CameraServer.getInstance().addAxisCamera("10.15.18.100");
         cam1.setResolution(320, 240);
         cam1.setBrightness(40);
-        */
+
         //Get Alliance from FMS
         alliance = DriverStation.getInstance().getAlliance().toString();
         SmartDashboard.putString("Alliance", alliance);
@@ -119,7 +119,7 @@ public class Robot extends TimedRobot {
         // instantiate the command used for the autonomous period
         m_chooser = new SendableChooser();
         m_chooser.addDefault("No Auto", null);
-        m_chooser.addObject("TestDrive", new Auto1());
+        m_chooser.addObject("Opposite Switch No Drop", new Auto1());
         m_chooser.addObject("Home Switch From Middle", new Auto2());
         m_chooser.addObject("Robot Left (Switch)", new Auto3());
         m_chooser.addObject("Robot Right (Switch)", new Auto4());
@@ -201,11 +201,11 @@ public class Robot extends TimedRobot {
         }
         
         else {
-        	xDrive = 0.75;
+        	xDrive = 0.65;
         }
         
     	//COMPUTE JOYSTICK VALUES GIVING DEADSPACE
-    	if (Math.abs(oi.mainstick.getX()) >= 0.5) {	
+    	if (Math.abs(oi.mainstick.getX()) >= 0.30) {	
     		mainstickX = oi.mainstick.getX(); 
     	}
     	
@@ -213,7 +213,7 @@ public class Robot extends TimedRobot {
     		mainstickX = 0; 
     	}
     	
-    	if (Math.abs(oi.mainstick.getY()) >= 0.5) {	
+    	if (Math.abs(oi.mainstick.getY()) >= 0.30) {	
     		mainstickY = oi.mainstick.getY(); 
     	}
     	
