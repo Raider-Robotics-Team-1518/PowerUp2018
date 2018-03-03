@@ -236,9 +236,8 @@ public class Robot extends TimedRobot {
     	//RobotMap.dio9.pulse(0);
     }
 
-    /**
-     * This function is called periodically during test mode
-     */
+      // This function is called periodically during test mode
+     
     public void testPeriodic() {
         //LiveWindow..run();
     }
