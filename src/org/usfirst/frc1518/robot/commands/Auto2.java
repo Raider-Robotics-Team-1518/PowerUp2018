@@ -22,26 +22,26 @@ public class Auto2 extends Command{
 		System.out.println("Starting Auto 2");
 		taskDone = false;
 		auto.rotateOut();
-		auto.driveforward(12);
+		auto.driveForward(12);
 		Timer.delay(.5);
 		fmscode = DriverStation.getInstance().getGameSpecificMessage().toString();
 		if (fmscode.length() > 0) {
 			if(fmscode.charAt(0) == 'L') {
 				//left side code
-				auto.strafeleft(70);
+				auto.strafeLeft(70);
 			}
 		
 			else {
 				//right side code
-				auto.straferight(70);
+				auto.strafeRight(65);
 			}
 		}
 		else {
-			auto.strafeleft(70);
+			auto.strafeLeft(70);
 		}
 	
 		Timer.delay(.5);
-		auto.driveforward(60);
+		auto.driveForward(55);
 		Timer.delay(1.5);
 		auto.openClaw();
 		end();

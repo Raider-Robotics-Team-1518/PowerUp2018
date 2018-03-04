@@ -28,26 +28,26 @@ public class Auto4 extends Command{
 		fmscode = DriverStation.getInstance().getGameSpecificMessage().toString();
 		if (fmscode.charAt(0) == 'R') {
 			System.out.println("FMS code " + fmscode.charAt(0));
-			auto.driveforward(120);
+			auto.driveForward(120);
 			Timer.delay(1);
-			auto.turnleft(90);
+			auto.turnLeft(90);
 			Timer.delay(1);
-			auto.driveforward(6);
+			auto.driveForward(6);
 			Timer.delay(1);
 			auto.openClaw();
 			Timer.delay(.25);
 			auto.rotateIn();
-			auto.drivebackward(12);
+			auto.driveBackward(12);
 			Timer.delay(1);
-			auto.turnright(90);
+			auto.turnRight(90);
 			Timer.delay(1);
-			auto.driveforward(36);
+			auto.driveForward(36);
 			Timer.delay(1);
-			auto.turnleft(90);
+			auto.turnLeft(90);
 			Timer.delay(1);
-			auto.driveforward(28);
+			auto.driveForward(28);
 			Timer.delay(1);
-			auto.turnleft(85);
+			auto.turnLeft(85);
 			auto.liftDown(24);
 			auto.rotateOut();
 			/*auto.straferight(62);
@@ -61,15 +61,15 @@ public class Auto4 extends Command{
 		System.out.println("FMS code " + fmscode.charAt(1));
 		auto.driveAndLift(120,52);
 		Timer.delay(.5);
-		auto.turnleft(90);
+		auto.turnLeft(90);
 		Timer.delay(1);
-		auto.driveforward(8);
+		auto.driveForward(8);
 		Timer.delay(1);
 		auto.openClaw();
 		}
 		
 		else {
-		auto.driveforward(132);
+		auto.driveForward(132);
 		}
 	
 		end();

@@ -13,11 +13,11 @@ package org.usfirst.frc1518.robot;
 
 import org.usfirst.frc1518.robot.commands.*;
 
-import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
 /**
  * This class is the glue that binds the controls on the physical operator
  * interface to the commands and command groups that allow control of the robot.
@@ -35,23 +35,33 @@ public static Joystick mainstick;
 public static JoystickButton soleButton0;
 public static JoystickButton soleButton1;
 public static JoystickButton soleButton2;
-public static JoystickButton liftup;
-public static JoystickButton liftdown;
-public static JoystickButton climbup;
-public static JoystickButton climbdown;
+public static JoystickButton liftUp;
+public static JoystickButton liftDown;
+public static JoystickButton liftUp2;
+public static JoystickButton liftDown2;
+public static JoystickButton climbUp;
+public static JoystickButton climbDown;
 public static JoystickButton turbo;
+public static  XboxController gp1;
+public static JoystickButton gp1ButtonA;
+public static JoystickButton gp1ButtonY;
+
 
     public OI() {
 
     	mainstick = new Joystick(0);
-    	liftup = new JoystickButton(mainstick, 5);
-    	liftup.whileHeld(new BoxLifter(true));
-    	liftdown = new JoystickButton(mainstick, 3);
-    	liftdown.whileHeld(new BoxLifter(false));
-    	climbup = new JoystickButton(mainstick, 6);
-    	climbup.whileHeld(new Climber(true));
-    	climbdown = new JoystickButton(mainstick, 4);
-    	climbdown.whileHeld(new Climber(false));
+    	liftUp = new JoystickButton(mainstick, 5);
+    	liftUp.whileHeld(new BoxLifter(true));	
+    	liftDown = new JoystickButton(mainstick, 3);
+    	liftDown.whileHeld(new BoxLifter(false));
+    	liftUp2 = new JoystickButton(mainstick, 9);
+    	liftUp2.whileHeld(new BoxLifter(true));	
+    	liftDown2 = new JoystickButton(mainstick, 11);
+    	liftDown2.whileHeld(new BoxLifter(false));
+    	climbUp = new JoystickButton(mainstick, 6);
+    	climbUp.whileHeld(new Climber(true));
+    	climbDown = new JoystickButton(mainstick, 4);
+    	climbDown.whileHeld(new Climber (false));
     	turbo = new JoystickButton(mainstick, 2);
     	soleButton0 = new JoystickButton(mainstick, 7);
     	soleButton0.whenPressed(new AirActuators(0));
@@ -59,6 +69,12 @@ public static JoystickButton turbo;
     	soleButton1.whenPressed(new AirActuators(1));
     	soleButton2 = new JoystickButton(mainstick, 11);
     	soleButton2.whenPressed(new AirActuators(2));
+    	gp1 = new XboxController(1);
+    	gp1ButtonA = new JoystickButton(gp1, 1);
+    	gp1ButtonY = new JoystickButton(gp1, 4);
+    	gp1ButtonA.whileHeld(new Climber(false));
+    	gp1ButtonY.whileHeld(new Climber(true));
+    	
     }
     
     public static void init() {

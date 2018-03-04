@@ -27,18 +27,18 @@ public class Auto6 extends Command{
 		if (fmscode.charAt(1) == 'L') {
 			auto.closeClaw();
 			auto.rotateOut();
-			auto.driveforward(40);
-			auto.strafeleft(99.7);
-			auto.driveforward(209.25);
+			auto.driveForward(40);
+			auto.strafeLeft(99.7);
+			auto.driveForward(209.25);
 			auto.liftUp(72);
-			auto.straferight(18.9);
-			auto.driveforward(11.6);
+			auto.strafeRight(18.9);
+			auto.driveForward(11.6);
 			Timer.delay(1);
 			auto.openClaw();
 		}
 		
 		else {
-			auto.driveforward(132);
+			auto.driveForward(132);
 		}
 		
 		end();

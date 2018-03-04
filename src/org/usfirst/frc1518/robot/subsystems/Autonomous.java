@@ -244,27 +244,27 @@ public class Autonomous extends Subsystem {
 	}
 	
 		//Drive Directions
-	public void driveforward(double distance) {
+	public void driveForward(double distance) {
 		gyroDrive(distance);
 	}
 	
-	public void drivebackward(double distance) {
+	public void driveBackward(double distance) {
 		gyroDrive(-Math.abs(distance));
 	}
 	
-	public void strafeleft(double distance) {
+	public void strafeLeft(double distance) {
 		strafeDrive(-distance);
 	}
 	
-	public void straferight(double distance) {
+	public void strafeRight(double distance) {
 		strafeDrive(distance);
 	}
 	
-	public void turnleft(double degrees) {
+	public void turnLeft(double degrees) {
 		gyroTurn(-degrees);
 	}
 	
-	public void turnright(double degrees) {
+	public void turnRight(double degrees) {
 		gyroTurn(degrees);
 	}
 	

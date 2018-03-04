@@ -27,18 +27,18 @@ public class BoxLifter extends Command {
 	}
 
 	protected void execute() {
-		SmartDashboard.putNumber("BoxLiftCounter", Robot.boxswitch);
+		SmartDashboard.putNumber("BoxLiftCounter", Robot.boxSwitch);
 		if (Robot.isTestBot == true) {
-			if ((mDir == true)  && (Robot.boxswitch <= maxcount)) {
-				Robot.rm.testlift.set(1);
+			if ((mDir == true)  && (Robot.boxSwitch <= maxcount)) {
+				Robot.rm.testLift.set(1);
 				if (HasSwitchChanged() ) {
-					Robot.boxswitch++;
+					Robot.boxSwitch++;
 				}
 			}
-			else if ((mDir == false) && (Robot.boxswitch <= mincount)) {
-				Robot.rm.testlift.set(-1);
+			else if ((mDir == false) && (Robot.boxSwitch <= mincount)) {
+				Robot.rm.testLift.set(-1);
 				if (HasSwitchChanged()) {
-					Robot.boxswitch--;
+					Robot.boxSwitch--;
 				}
 			}
 			else {
@@ -46,16 +46,16 @@ public class BoxLifter extends Command {
 			}
 		}
 		else {
-			if ((mDir == true)  && (Robot.boxswitch <= maxcount)) {
+			if ((mDir == true)  && (Robot.boxSwitch <= maxcount)) {
 				Robot.rm.lift.set(1);
 				if (HasSwitchChanged() ) {
-					Robot.boxswitch++;
+					Robot.boxSwitch++;
 				}
 			}
-			else if ((mDir == false) && (Robot.boxswitch <= mincount)) {
+			else if ((mDir == false) && (Robot.boxSwitch <= mincount)) {
 				Robot.rm.lift.set(-1);
 				if (HasSwitchChanged()) {
-					Robot.boxswitch--;
+					Robot.boxSwitch--;
 				}
 			}
 			else {
@@ -66,6 +66,7 @@ public class BoxLifter extends Command {
 
 	protected void end() {
 		Robot.rm.lift.set(0);
+		Robot.rm.testLift.set(0);
 	}
 	protected boolean HasSwitchChanged() {
 		if (switchState == Robot.rm.BoxSwitch.get()) {
