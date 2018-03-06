@@ -22,7 +22,7 @@ public class Autonomous extends Subsystem {
 	double circumferenceInInches = 25.875;
 	int pulsesPerRotation = 1024;
 	//int pulsesPerRotation = 315;
-	double liftInPerSec = 8;
+	double liftInPerSec = 6;    // 8 in/sec didn't lift high enough
 	//public static RobotDrive drive;
 	double distanceToTravel = 0;
 	double startPosition = 0;

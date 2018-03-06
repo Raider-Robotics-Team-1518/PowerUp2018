@@ -119,6 +119,7 @@ public class Robot extends TimedRobot {
         // instantiate the command used for the autonomous period
         m_chooser = new SendableChooser();
         m_chooser.addDefault("No Auto", null);
+        m_chooser.addObject("Only Cross Line", new Auto7());
         m_chooser.addObject("Opposite Switch No Drop", new Auto1());
         m_chooser.addObject("Home Switch From Middle", new Auto2());
         m_chooser.addObject("Robot Left (Switch)", new Auto3());

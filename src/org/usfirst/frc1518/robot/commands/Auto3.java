@@ -44,7 +44,7 @@ public class Auto3 extends Command{
 		}
 		
 		else if (fmscode.charAt(1) == 'L') {
-		auto.driveAndLift(225,52);
+		auto.driveAndLift(275,52);
 		Timer.delay(.5);
 		auto.turnRight(90);
 		Timer.delay(1);

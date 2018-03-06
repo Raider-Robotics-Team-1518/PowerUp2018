@@ -59,7 +59,7 @@ public class Auto4 extends Command{
 		
 		else if (fmscode.charAt(1) == 'R') {
 		System.out.println("FMS code " + fmscode.charAt(1));
-		auto.driveAndLift(120,52);
+		auto.driveAndLift(275,52);
 		Timer.delay(.5);
 		auto.turnLeft(90);
 		Timer.delay(1);
