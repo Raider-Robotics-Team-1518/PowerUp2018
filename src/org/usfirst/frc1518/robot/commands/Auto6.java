@@ -22,27 +22,50 @@ public class Auto6 extends Command{
 	}
 	protected void execute() {
 		System.out.println("Starting Auto 6");
+		System.out.println("FMS code " + fmscode);
 		taskDone = false;
-		fmscode = DriverStation.getInstance().getGameSpecificMessage().toString();
-		if (fmscode.charAt(1) == 'L') {
-			auto.closeClaw();
-			auto.rotateOut();
-			auto.driveForward(40);
-			auto.strafeLeft(99.7);
-			auto.driveForward(209.25);
-			auto.liftUp(72);
-			auto.strafeRight(18.9);
-			auto.driveForward(11.6);
+		auto.rotateOut();
+		fmscode = DriverStation.getInstance().getGameSpecificMessage().toString();	
+		if (fmscode.charAt(1) == 'R') {
+			System.out.println("FMS code " + fmscode.charAt(1));
+			auto.driveAndLift(275,52);
+			Timer.delay(.5);
+			auto.turnLeft(90);
+			Timer.delay(1);
+			auto.driveForward(8);
 			Timer.delay(1);
 			auto.openClaw();
 		}
-		
+		else if (fmscode.charAt(0) == 'R') {
+			System.out.println("FMS code " + fmscode.charAt(0));
+			auto.driveForward(120);
+			Timer.delay(1);
+			auto.turnLeft(90);
+			Timer.delay(1);
+			auto.driveForward(6);
+			Timer.delay(1);
+			auto.openClaw();
+			Timer.delay(.25);
+			auto.rotateIn();
+			auto.driveBackward(12);
+			Timer.delay(1);
+			auto.turnRight(90);
+			Timer.delay(1);
+			auto.driveForward(36);
+			Timer.delay(1);
+			auto.turnLeft(90);
+			Timer.delay(1);
+			auto.driveForward(28);
+			Timer.delay(1);
+			auto.turnLeft(85);
+			auto.liftDown(24);
+			auto.rotateOut();
+		}
 		else {
 			auto.driveForward(132);
 		}
-		
+	
 		end();
-		
 	}
 	
 	protected void end(){
@@ -62,7 +85,7 @@ public class Auto6 extends Command{
     	
     }
     
-@Override
+    @Override
 	protected boolean isFinished() {
 		System.out.println("Auto Mode 6 isFinished");
 		return taskDone;

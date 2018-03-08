@@ -56,7 +56,7 @@ public class Robot extends TimedRobot {
     public static boolean turbo;
 
     //Setup
-    public static boolean isTestBot = false;			//<------------------- Determine Drive Train Here
+    public static boolean isTestBot = true;			//<------------------- Determine Drive Train Here
     public static double feedSpeed;
 	public static boolean isReversed = true;
 	public static boolean intakeOn;
@@ -104,10 +104,10 @@ public class Robot extends TimedRobot {
         climbSwitch = 0;
 
         //Camera setup
-/*        cam0 = CameraServer.getInstance().startAutomaticCapture();
+        cam0 = CameraServer.getInstance().startAutomaticCapture();
         cam0.setResolution(160, 120);
         cam0.setFPS(15);
-        cam0.setBrightness(35);  */
+        cam0.setBrightness(35);  
         cam1 = CameraServer.getInstance().addAxisCamera("10.15.18.100");
         cam1.setResolution(320, 240);
         cam1.setBrightness(40);
@@ -124,6 +124,8 @@ public class Robot extends TimedRobot {
         m_chooser.addObject("Home Switch From Middle", new Auto2());
         m_chooser.addObject("Robot Left (Switch)", new Auto3());
         m_chooser.addObject("Robot Right (Switch)", new Auto4());
+        m_chooser.addObject("Robot Left (Scale)", new Auto5());;
+        m_chooser.addObject("Robot Right (Scale)",  new Auto6());
         SmartDashboard.putData("AutoMode", m_chooser);
 
         //SETTING BRAKE MODE ON DRIVE MOTORS

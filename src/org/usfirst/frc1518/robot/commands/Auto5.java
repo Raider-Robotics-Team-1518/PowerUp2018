@@ -23,27 +23,40 @@ public class Auto5 extends Command{
 	protected void execute() {
 		System.out.println("Starting Auto 5");
 		taskDone = false;
+		auto.rotateOut();
 		fmscode = DriverStation.getInstance().getGameSpecificMessage().toString();
-
-		if (fmscode.charAt(1) == 'L') {
-			auto.closeClaw();
-			auto.rotateOut();
-			auto.driveForward(40);
-			auto.strafeLeft(99.7);
-			auto.driveForward(209.25);
-			auto.liftUp(72);
-			auto.strafeRight(18.9);
-			auto.driveForward(11.6);
+		 if (fmscode.charAt(1) == 'L') {
+			 auto.driveAndLift(275,52);
+			 Timer.delay(.5);
+			 auto.turnRight(90);
+			 Timer.delay(1);
+			 auto.driveForward(8);
+			 Timer.delay(1);
+			 auto.openClaw();
+		}
+		 else if (fmscode.charAt(0) == 'L') {
+			auto.driveForward(120);
+			Timer.delay(1);
+			auto.turnRight(90);
+			Timer.delay(1);
+			auto.driveForward(17.05);
 			Timer.delay(1);
 			auto.openClaw();
+			Timer.delay(.25);
+			auto.driveBackward(6);
+			Timer.delay(1);
+			auto.strafeLeft(40);
+			Timer.delay(1);
+			auto.turnRight(90);
+			Timer.delay(1);
+			auto.strafeLeft(30);
 		}
 		
 		else {
-			auto.driveForward(132);
+		auto.driveForward(132);
 		}
-		
+	
 		end();
-		
 	}
 	
 	protected void end(){
@@ -60,9 +73,9 @@ public class Auto5 extends Command{
 		System.out.println("Auto Mode 5 Stopped");
     	Robot.m_drive.driveCartesian(0, 0, 0);
     	taskDone = true;
-    	
     }
     
+
 	@Override
 	protected boolean isFinished() {
 		System.out.println("Auto Mode 5 isFinished");
