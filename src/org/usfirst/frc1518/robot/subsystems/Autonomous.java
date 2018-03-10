@@ -217,30 +217,26 @@ public class Autonomous extends Subsystem {
 		// Without encoder on lift assembly, measurement is based on time
 		// To measure based on time, a given rate must be known - inches traveled per second
 		// Set the rate in liftInPerSec constant at top of class
-	public void liftUp(double height) {
-		
-		double liftTime = (height/liftInPerSec) * 1000;
-		double motorTime = 0;
-			while (motorTime <= liftTime) {
-				Robot.rm.lift.set(1.0);
+	public void liftUp(double drumRotations) {
+		double startPos = Robot.rm.BoxSwitch.get();
+		double endPos = startPos + (drumRotations) * 15360;
+			while (Robot.rm.BoxSwitch.get() < endPos) {
+				Robot.rm.testLift.set(1.0);
 				Timer.delay(0.050);
-				motorTime = motorTime + 50;
 			}
 			
-			Robot.rm.lift.set(0);
+			Robot.rm.testLift.set(0);
 	}
 	
-	public void liftDown(double height) {
-	
-		double liftTime = (Math.abs(height)/liftInPerSec) * 1000;
-		double motorTime = 0;
-			while (motorTime <= liftTime) {
-				Robot.rm.lift.set(-1.0);
+	public void liftDown(double drumRotations) {
+	double startPos = Robot.rm.BoxSwitch.get();
+		double endPos = startPos - (Math.abs(drumRotations) * 15360);
+			while (Robot.rm.BoxSwitch.get() > endPos) {
+				Robot.rm.testLift.set(-1.0);
 				Timer.delay(0.050);
-				motorTime = motorTime + 50;
 			}
 			
-			Robot.rm.lift.set(0);
+			Robot.rm.testLift.set(0);
 	}
 	
 		//Drive Directions

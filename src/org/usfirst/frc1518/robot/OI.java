@@ -46,6 +46,7 @@ public static JoystickButton turbo;
 public static  XboxController gp1;
 public static JoystickButton gp1ButtonA;
 public static JoystickButton gp1ButtonY;
+public static JoystickButton reset;
 
 
     public OI() {
@@ -77,6 +78,7 @@ public static JoystickButton gp1ButtonY;
     	gp1ButtonY = new JoystickButton(gp1, 4);
     	gp1ButtonA.whileHeld(new Climber(false));
     	gp1ButtonY.whileHeld(new Climber(true));
+    	reset = new JoystickButton(mainstick, 12);
     	
     }
     

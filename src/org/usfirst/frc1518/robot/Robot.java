@@ -70,7 +70,6 @@ public class Robot extends TimedRobot {
 	
 		// AUX "encoders"
 	public static int boxSwitch;
-	public static int climbSwitch;
 
 	SendableChooser<Command> m_chooser = new SendableChooser<>();
 
@@ -101,8 +100,8 @@ public class Robot extends TimedRobot {
         rm.encoderRRear.reset();
         turbo=false;
         boxSwitch = 1;
-        climbSwitch = 0;
-
+        rm.BoxSwitch.reset();
+        
         //Camera setup
         cam0 = CameraServer.getInstance().startAutomaticCapture();
         cam0.setResolution(160, 120);
@@ -126,6 +125,7 @@ public class Robot extends TimedRobot {
         m_chooser.addObject("Robot Right (Switch)", new Auto4());
         m_chooser.addObject("Robot Left (Scale)", new Auto5());;
         m_chooser.addObject("Robot Right (Scale)",  new Auto6());
+        m_chooser.addObject("TestAuto",  new TestAuto());
         SmartDashboard.putData("AutoMode", m_chooser);
 
         //SETTING BRAKE MODE ON DRIVE MOTORS
@@ -137,6 +137,7 @@ public class Robot extends TimedRobot {
         rm.testdriveTrainFrontRightWheel.setNeutralMode(NeutralMode.Brake);
         rm.testdriveTrainRearLeftWheel.setNeutralMode(NeutralMode.Brake);
         rm.testdriveTrainRearRightWheel.setNeutralMode(NeutralMode.Brake);
+        rm.testLift.setNeutralMode(NeutralMode.Brake);
         rm.lift.setNeutralMode(NeutralMode.Brake);
         rm.climb.setNeutralMode(NeutralMode.Brake);
         rm.lift.setInverted(true);
@@ -164,6 +165,7 @@ public class Robot extends TimedRobot {
 
     public void autonomousInit() {
         // schedule the autonomous command (example)
+    	rm.BoxSwitch.reset();
         setLights();
     	m_drive.setSafetyEnabled(true);
 
@@ -183,12 +185,12 @@ public class Robot extends TimedRobot {
         // teleop starts running. If you want the autonomous to
         // continue until interrupted by another command, remove
         // this line or comment it out.
+    	rm.BoxSwitch.reset();
         if (autoMode != null) autoMode.cancel();
     	rm.rioGyro.reset();
         setLights();
     	m_drive.setSafetyEnabled(true);
     	boxSwitch = 0;
-        climbSwitch = 0;
     }
 
     /**
@@ -196,13 +198,18 @@ public class Robot extends TimedRobot {
      */
     public void teleopPeriodic() {
         Scheduler.getInstance().run();
+        if (oi.reset.get()) {
+        	rm.BoxSwitch.reset();
+        }
+        SmartDashboard.putNumber("Box Encoder", rm.BoxSwitch.get());
+        SmartDashboard.putNumber("Drum Rotations", rm.BoxSwitch.get()/16384.0);
         //turbo = true;
-        if (Robot.oi.turbo.get()) {
-        	xDrive = 0.85;
+        if (oi.turbo.get()) {
+        	xDrive = 1;  //0.85;				CHANGE FOR MAIN ROBOT
         }
         
         else {
-        	xDrive = 0.65;
+        	xDrive = 1;  //0.65;				CHANGE FOR MAIN ROBOT
         }
         
     	//COMPUTE JOYSTICK VALUES GIVING DEADSPACE

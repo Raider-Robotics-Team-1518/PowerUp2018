@@ -20,11 +20,11 @@ public class Climber extends Command {
 	}
 
 	protected void execute() {
-		if ((mDir == true) && (Robot.rm.ClimbSwitch.get() == true)) {
+		if ((mDir == true)) {
 			Robot.rm.climb.set(1);
 		}
 
-		else if ((mDir == false) && (Robot.rm.ClimbSwitch.get() == true)) {
+		else if ((mDir == false)) {
 			Robot.rm.climb.set(-1);
 		}
 		else {
