@@ -56,15 +56,15 @@ public class LeftSwitchAuto extends Command{
 		else {
 			auto.driveForward(33);
 			Timer.delay(1);
-			auto.turnLeft(65);
+			auto.turnRight(65);
 			Timer.delay(1);
 			auto.driveForward(39);
 			Timer.delay(1);
-			auto.turnRight(65);
+			auto.turnLeft(65);
 			Timer.delay(1);
 			auto.driveForward(13);
 			Timer.delay(1);
-			auto.turnRight(65);
+			auto.turnLeft(65);
 			Timer.delay(1);
 			auto.driveForward(2);
 			auto.openClaw();
