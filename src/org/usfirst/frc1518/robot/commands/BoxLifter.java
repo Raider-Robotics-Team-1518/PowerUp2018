@@ -32,7 +32,7 @@ public class BoxLifter extends Command {
 			if ((mDir == true) && (Robot.rm.BoxSwitch.get() < maxcount)) {
 				Robot.rm.testLift.set(1);
 			}
-			else if ((mDir == false) && (Robot.rm.BoxSwitch.get() > mincount)) {
+			else if ((mDir == false)) {  // && (Robot.rm.BoxSwitch.get() > mincount)) {
 				Robot.rm.testLift.set(-1);
 			}
 			else {

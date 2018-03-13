@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class Auto5 extends Command{
+public class LeftScaleAuto extends Command{
 	Autonomous auto = new Autonomous();
 	boolean taskDone = false;
 
@@ -17,7 +17,7 @@ public class Auto5 extends Command{
 	String fmscode = DriverStation.getInstance().getGameSpecificMessage();
 	
 	
-	public Auto5() {
+	public LeftScaleAuto() {
 		// TODO Auto-generated constructor stub
 	}
 	protected void execute() {

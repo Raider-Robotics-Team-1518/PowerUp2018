@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class Auto4 extends Command{
+public class RightScaleAuto extends Command{
 	Autonomous auto = new Autonomous();
 	boolean taskDone = false;
 
@@ -17,16 +17,26 @@ public class Auto4 extends Command{
 	String fmscode = DriverStation.getInstance().getGameSpecificMessage();
 	
 	
-	public Auto4() {
+	public RightScaleAuto() {
 		// TODO Auto-generated constructor stub
 	}
 	protected void execute() {
-		System.out.println("Starting Auto 4");
+		System.out.println("Starting Auto 6");
 		System.out.println("FMS code " + fmscode);
 		taskDone = false;
 		auto.rotateOut();
-		fmscode = DriverStation.getInstance().getGameSpecificMessage().toString();
-		if (fmscode.charAt(0) == 'R') {
+		fmscode = DriverStation.getInstance().getGameSpecificMessage().toString();	
+		if (fmscode.charAt(1) == 'R') {
+			System.out.println("FMS code " + fmscode.charAt(1));
+			auto.driveAndLift(275,52);
+			Timer.delay(.5);
+			auto.turnLeft(90);
+			Timer.delay(1);
+			auto.driveForward(8);
+			Timer.delay(1);
+			auto.openClaw();
+		}
+		else if (fmscode.charAt(0) == 'R') {
 			System.out.println("FMS code " + fmscode.charAt(0));
 			auto.driveForward(120);
 			Timer.delay(1);
@@ -50,43 +60,26 @@ public class Auto4 extends Command{
 			auto.turnLeft(85);
 			auto.liftDown(24);
 			auto.rotateOut();
-			/*auto.straferight(62);
-			Timer.delay(1);
-			auto.turnleft(90);
-			Timer.delay(1);
-			auto.straferight(28);*/
 		}
-		
-		else if (fmscode.charAt(1) == 'R') {
-		System.out.println("FMS code " + fmscode.charAt(1));
-		auto.driveAndLift(275,52);
-		Timer.delay(.5);
-		auto.turnLeft(90);
-		Timer.delay(1);
-		auto.driveForward(8);
-		Timer.delay(1);
-		auto.openClaw();
-		}
-		
 		else {
-		auto.driveForward(132);
+			auto.driveForward(132);
 		}
 	
 		end();
 	}
 	
 	protected void end(){
-		System.out.println("Auto Mode 4 Completed");
+		System.out.println("Auto Mode 6 Completed");
 		stop();
 	}
 
 	protected void interrupted() {
 		stop();
-		System.out.println("Auto Mode 4 Interrupted");
+		System.out.println("Auto Mode 6 Interrupted");
 	}
 
     public void stop() {
-		System.out.println("Auto Mode 4 Stopped");
+		System.out.println("Auto Mode 6 Stopped");
     	Robot.m_drive.driveCartesian(0, 0, 0);
     	taskDone = true;
     	
@@ -94,7 +87,7 @@ public class Auto4 extends Command{
     
     @Override
 	protected boolean isFinished() {
-		System.out.println("Auto Mode 4 isFinished");
+		System.out.println("Auto Mode 6 isFinished");
 		return taskDone;
 	}
 

@@ -79,11 +79,12 @@ public static JoystickButton reset;
     	gp1ButtonA.whileHeld(new Climber(false));
     	gp1ButtonY.whileHeld(new Climber(true));
     	reset = new JoystickButton(mainstick, 12);
+    	reset.whenPressed(new LiftCounterReset());
     	
     }
     
     public static void init() {
-    	SmartDashboard.putData("Autonomous Command", new Auto1());
+    	SmartDashboard.putData("Autonomous Command", new MiddleSwitchNoDropAuto());
         Robot.feedSpeed = mainstick.getThrottle();
     }
 }

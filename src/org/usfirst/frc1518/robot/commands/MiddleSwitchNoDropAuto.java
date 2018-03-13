@@ -10,12 +10,12 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class Auto7 extends Command {
+public class MiddleSwitchNoDropAuto extends Command {
 	Autonomous auto = new Autonomous();
 	boolean taskDone = false;
 	String fmscode = DriverStation.getInstance().getGameSpecificMessage();
 
-	public Auto7() {
+	public MiddleSwitchNoDropAuto() {
 		
 	}
 	
@@ -23,11 +23,28 @@ public class Auto7 extends Command {
 		System.out.println("Starting Test Drive");
 		taskDone = false;
 		taskDone = false;
-		Timer.delay(2.5);
 		auto.rotateOut();
-		auto.driveForward(48);
+		auto.driveForward(12);
+		Timer.delay(.5);
 		fmscode = DriverStation.getInstance().getGameSpecificMessage().toString();
-		Timer.delay(1.5);
+		if (fmscode.length() > 0) {
+			if(fmscode.charAt(0) == 'L') {
+				//left side code
+				auto.strafeRight(70);
+			}
+		
+			else {
+				//right side code
+				auto.strafeLeft(70);
+			}
+		}
+		else {
+			auto.strafeLeft(70);
+		}
+	
+		Timer.delay(.5);
+		auto.driveForward(60);
+		Timer.delay(.5);
 		end();
 		
 	}

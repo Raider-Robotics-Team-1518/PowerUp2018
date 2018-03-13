@@ -118,13 +118,13 @@ public class Robot extends TimedRobot {
         // instantiate the command used for the autonomous period
         m_chooser = new SendableChooser();
         m_chooser.addDefault("No Auto", null);
-        m_chooser.addObject("Only Cross Line", new Auto7());
-        m_chooser.addObject("Opposite Switch No Drop", new Auto1());
-        m_chooser.addObject("Home Switch From Middle", new Auto2());
-        m_chooser.addObject("Robot Left (Switch)", new Auto3());
-        m_chooser.addObject("Robot Right (Switch)", new Auto4());
-        m_chooser.addObject("Robot Left (Scale)", new Auto5());;
-        m_chooser.addObject("Robot Right (Scale)",  new Auto6());
+        m_chooser.addObject("Only Cross Line", new CrossLineOnlyAuto());
+        m_chooser.addObject("Opposite Switch No Drop", new MiddleSwitchNoDropAuto());
+        m_chooser.addObject("Home Switch From Middle", new MiddleSwitchAuto());
+        m_chooser.addObject("Robot Left (Switch)", new LeftSwitchAuto());
+        m_chooser.addObject("Robot Right (Switch)", new RightSwitchAuto());
+        m_chooser.addObject("Robot Left (Scale)", new LeftScaleAuto());;
+        m_chooser.addObject("Robot Right (Scale)",  new RightScaleAuto());
         m_chooser.addObject("TestAuto",  new TestAuto());
         SmartDashboard.putData("AutoMode", m_chooser);
 
@@ -165,7 +165,7 @@ public class Robot extends TimedRobot {
 
     public void autonomousInit() {
         // schedule the autonomous command (example)
-    	rm.BoxSwitch.reset();
+    	//rm.BoxSwitch.reset();
         setLights();
     	m_drive.setSafetyEnabled(true);
 
@@ -185,7 +185,7 @@ public class Robot extends TimedRobot {
         // teleop starts running. If you want the autonomous to
         // continue until interrupted by another command, remove
         // this line or comment it out.
-    	rm.BoxSwitch.reset();
+    	//rm.BoxSwitch.reset();
         if (autoMode != null) autoMode.cancel();
     	rm.rioGyro.reset();
         setLights();
@@ -198,9 +198,6 @@ public class Robot extends TimedRobot {
      */
     public void teleopPeriodic() {
         Scheduler.getInstance().run();
-        if (oi.reset.get()) {
-        	rm.BoxSwitch.reset();
-        }
         SmartDashboard.putNumber("Box Encoder", rm.BoxSwitch.get());
         SmartDashboard.putNumber("Drum Rotations", rm.BoxSwitch.get()/16384.0);
         //turbo = true;
