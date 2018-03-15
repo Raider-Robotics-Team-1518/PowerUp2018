@@ -34,27 +34,24 @@ public class LeftScaleAuto extends Command{
 			 Timer.delay(1);
 			 auto.openClaw();
 		}
-		 else if (fmscode.charAt(0) == 'L') {
-			auto.driveForward(120);
+		 else {
+			 auto.driveForward(216);
 			Timer.delay(1);
 			auto.turnRight(90);
 			Timer.delay(1);
-			auto.driveForward(17.05);
+			auto.driveForward(252);
 			Timer.delay(1);
+			auto.turnLeft(90);
+			Timer.delay(1);
+			auto.driveForward(60);
+			Timer.delay(1);
+			auto.turnLeft(90);
+			Timer.delay(1);
+			auto.liftUp(12.9);
+			Timer.delay(1);
+			auto.driveForward(18);
 			auto.openClaw();
-			Timer.delay(.25);
-			auto.driveBackward(6);
-			Timer.delay(1);
-			auto.strafeLeft(40);
-			Timer.delay(1);
-			auto.turnRight(90);
-			Timer.delay(1);
-			auto.strafeLeft(30);
-		}
-		
-		else {
-		auto.driveForward(132);
-		}
+		 }
 	
 		end();
 	}

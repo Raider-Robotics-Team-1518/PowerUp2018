@@ -69,19 +69,21 @@ public class RightSwitchAuto extends Command{
 		}
 		
 		else {
-			auto.driveForward(33);
+			auto.driveForward(216);
 			Timer.delay(1);
-			auto.turnLeft(65);
+			auto.turnLeft(90);
 			Timer.delay(1);
-			auto.driveForward(39);
+			auto.driveForward(252);
 			Timer.delay(1);
-			auto.turnRight(65);
+			auto.turnRight(90);
 			Timer.delay(1);
-			auto.driveForward(13);
+			auto.driveForward(60);
 			Timer.delay(1);
-			auto.turnRight(65);
+			auto.turnRight(90);
 			Timer.delay(1);
-			auto.driveForward(2);
+			auto.liftUp(12.9);
+			Timer.delay(1);
+			auto.driveForward(36);
 			auto.openClaw();
 		}
 	

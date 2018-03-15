@@ -36,38 +36,27 @@ public class RightScaleAuto extends Command{
 			Timer.delay(1);
 			auto.openClaw();
 		}
-		else if (fmscode.charAt(0) == 'R') {
-			System.out.println("FMS code " + fmscode.charAt(0));
-			auto.driveForward(120);
+		else {
+			auto.driveForward(216);
 			Timer.delay(1);
 			auto.turnLeft(90);
 			Timer.delay(1);
-			auto.driveForward(6);
-			Timer.delay(1);
-			auto.openClaw();
-			Timer.delay(.25);
-			auto.rotateIn();
-			auto.driveBackward(12);
+			auto.driveForward(252);
 			Timer.delay(1);
 			auto.turnRight(90);
 			Timer.delay(1);
-			auto.driveForward(36);
+			auto.driveForward(60);
 			Timer.delay(1);
-			auto.turnLeft(90);
+			auto.turnRight(90);
 			Timer.delay(1);
-			auto.driveForward(28);
+			auto.liftUp(12.9);
 			Timer.delay(1);
-			auto.turnLeft(85);
-			auto.liftDown(24);
-			auto.rotateOut();
-		}
-		else {
-			auto.driveForward(132);
+			auto.driveForward(18);
+			auto.openClaw();
 		}
 	
 		end();
 	}
-	
 	protected void end(){
 		System.out.println("Auto Mode 6 Completed");
 		stop();

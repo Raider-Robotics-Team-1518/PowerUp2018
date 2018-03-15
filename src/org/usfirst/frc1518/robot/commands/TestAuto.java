@@ -1,9 +1,11 @@
 package org.usfirst.frc1518.robot.commands;
 
+import org.usfirst.frc1518.robot.Robot;
 import org.usfirst.frc1518.robot.subsystems.Autonomous;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class TestAuto extends Command {
 	Autonomous auto = new Autonomous();
@@ -17,7 +19,9 @@ public class TestAuto extends Command {
 	protected void execute() {
 		System.out.println("Starting Test Drive");
 		taskDone = false;
-		auto.liftUp(2);
+		
+		//auto.driveForward(Robot.testDist);
+		auto.driveAndLift(120, 52);
 		taskDone = true;
 		
 	}

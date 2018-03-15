@@ -16,8 +16,8 @@ public class BoxLifter extends Command {
 	boolean mDir;
 	boolean switchState = false;
 	
-	double maxheight = 16.5 * 16;			// Maximum height for box lifter
-	int minheight = -16;			// Minimum height for box lifter
+	double maxheight = 18 * 16;			// Maximum height for box lifter
+	int minheight = -64;			// Minimum height for box lifter
 	int ticksPerRotation = 1024;		// # of ticks of the encoder per inch	 Total ticks = 271727.0
 
 	double maxcount = (maxheight * ticksPerRotation);
@@ -40,10 +40,10 @@ public class BoxLifter extends Command {
 			}
 		}
 		else {
-			if ((mDir == true)  && (Robot.boxSwitch <= maxcount)) {
+			if ((mDir == true)  && (Robot.rm.BoxSwitch.get() <= maxcount)) {
 				Robot.rm.lift.set(1);
 			}
-			else if ((mDir == false) && (Robot.boxSwitch <= mincount)) {
+			else if ((mDir == false) && (Robot.rm.BoxSwitch.get() > mincount)) {
 				Robot.rm.lift.set(-1);
 				}
 			else {

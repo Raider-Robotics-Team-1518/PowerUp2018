@@ -41,7 +41,7 @@ public class MiddleSwitchAuto extends Command{
 		}
 	
 		Timer.delay(.5);
-		auto.driveForward(55);
+		auto.driveForward(57);
 		Timer.delay(1.5);
 		auto.openClaw();
 		end();

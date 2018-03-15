@@ -56,7 +56,7 @@ public class Robot extends TimedRobot {
     public static boolean turbo;
 
     //Setup
-    public static boolean isTestBot = true;			//<------------------- Determine Drive Train Here
+    public static boolean isTestBot = false;			//<------------------- Determine Drive Train Here
     public static double feedSpeed;
 	public static boolean isReversed = true;
 	public static boolean intakeOn;
@@ -70,6 +70,7 @@ public class Robot extends TimedRobot {
 	
 		// AUX "encoders"
 	public static int boxSwitch;
+	public static double testDist;
 
 	SendableChooser<Command> m_chooser = new SendableChooser<>();
 
@@ -103,17 +104,17 @@ public class Robot extends TimedRobot {
         rm.BoxSwitch.reset();
         
         //Camera setup
-        cam0 = CameraServer.getInstance().startAutomaticCapture();
+        /*cam0 = CameraServer.getInstance().startAutomaticCapture();
         cam0.setResolution(160, 120);
         cam0.setFPS(15);
-        cam0.setBrightness(35);  
+        cam0.setBrightness(35);  */
         cam1 = CameraServer.getInstance().addAxisCamera("10.15.18.100");
         cam1.setResolution(320, 240);
         cam1.setBrightness(40);
 
         //Get Alliance from FMS
-        alliance = DriverStation.getInstance().getAlliance().toString();
-        SmartDashboard.putString("Alliance", alliance);
+        //alliance = DriverStation.getInstance().getAlliance().toString();
+        //SmartDashboard.putString("Alliance", alliance);
         
         // instantiate the command used for the autonomous period
         m_chooser = new SendableChooser();
@@ -128,6 +129,9 @@ public class Robot extends TimedRobot {
         m_chooser.addObject("TestAuto",  new TestAuto());
         SmartDashboard.putData("AutoMode", m_chooser);
 
+		//testDist = SmartDashboard.getNumber("Test Distance", 0);
+
+        
         //SETTING BRAKE MODE ON DRIVE MOTORS
         rm.driveTrainFrontLeftWheel.setNeutralMode(NeutralMode.Brake);
         rm.driveTrainFrontRightWheel.setNeutralMode(NeutralMode.Brake);
@@ -168,7 +172,9 @@ public class Robot extends TimedRobot {
     	//rm.BoxSwitch.reset();
         setLights();
     	m_drive.setSafetyEnabled(true);
-
+    	//SmartDashboard.getData("Test-Distance");
+		//testDist = SmartDashboard.getNumber("Test-Distance", 0);
+		System.out.println(testDist);
         autoMode = (Command) m_chooser.getSelected();
         if (autoMode != null) autoMode.start();
     }
@@ -198,15 +204,15 @@ public class Robot extends TimedRobot {
      */
     public void teleopPeriodic() {
         Scheduler.getInstance().run();
-        SmartDashboard.putNumber("Box Encoder", rm.BoxSwitch.get());
-        SmartDashboard.putNumber("Drum Rotations", rm.BoxSwitch.get()/16384.0);
+        //SmartDashboard.putNumber("Box Encoder", rm.BoxSwitch.get());
+        //SmartDashboard.putNumber("Drum Rotations", rm.BoxSwitch.get()/16384.0);
         //turbo = true;
         if (oi.turbo.get()) {
-        	xDrive = 1;  //0.85;				CHANGE FOR MAIN ROBOT
+        	xDrive = .85;  //0.85;				CHANGE FOR MAIN ROBOT
         }
         
         else {
-        	xDrive = 1;  //0.65;				CHANGE FOR MAIN ROBOT
+        	xDrive = .65;  //0.65;				CHANGE FOR MAIN ROBOT
         }
         
     	//COMPUTE JOYSTICK VALUES GIVING DEADSPACE
@@ -235,9 +241,9 @@ public class Robot extends TimedRobot {
     	}
     	
     	double gyroAngle = rm.rioGyro.getAngle();
-    	SmartDashboard.putNumber("Gyro Angle", gyroAngle);
-    	SmartDashboard.putNumber("Left Encoder Count", rm.encoderLRear.get());    // PUT BACK
-    	SmartDashboard.putNumber("Right Encoder Count", rm.encoderRRear.get());  //  PUT BACK
+    	//SmartDashboard.putNumber("Gyro Angle", gyroAngle);
+    	//SmartDashboard.putNumber("Left Encoder Count", rm.encoderLRear.get());    // PUT BACK
+    	//SmartDashboard.putNumber("Right Encoder Count", rm.encoderRRear.get());  //  PUT BACK
     	m_drive.driveCartesian((Math.pow(mainstickX, 3) * xDrive), (Math.pow(mainstickY, 3) * -xDrive), (Math.pow(mainstickZ, 3) * .6), 0.0);
     	//RobotMap.dio8.pulse(1);
     	//RobotMap.dio9.pulse(0);
