@@ -28,23 +28,31 @@ public class MiddleSwitchAuto extends Command{
 		if (fmscode.length() > 0) {
 			if(fmscode.charAt(0) == 'L') {
 				//left side code
-				auto.strafeLeft(70);
+				auto.strafeLeft(65);
+				Timer.delay(.5);
+				auto.driveForward(57);
+				Timer.delay(1.5);
+				auto.openClaw();
+				Timer.delay(1);
+				auto.driveForward(6);
+				end();
 			}
 		
 			else {
 				//right side code
-				auto.strafeRight(65);
+				auto.strafeRight(60);
+				Timer.delay(.5);
+				auto.driveForward(57);
+				Timer.delay(1.5);
+				auto.openClaw();
+				Timer.delay(1);
+				auto.driveForward(6);
+				end();
 			}
 		}
 		else {
-			auto.strafeLeft(70);
+			end();
 		}
-	
-		Timer.delay(.5);
-		auto.driveForward(57);
-		Timer.delay(1.5);
-		auto.openClaw();
-		end();
 		
 	}
 	

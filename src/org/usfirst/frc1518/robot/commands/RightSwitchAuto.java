@@ -32,7 +32,7 @@ public class RightSwitchAuto extends Command{
 			Timer.delay(1);
 			auto.turnLeft(90);
 			Timer.delay(1);
-			auto.driveForward(6);
+			auto.driveForward(15);
 			Timer.delay(1);
 			auto.openClaw();
 			Timer.delay(.25);
@@ -48,7 +48,7 @@ public class RightSwitchAuto extends Command{
 			auto.driveForward(28);
 			Timer.delay(1);
 			auto.turnLeft(85);
-			auto.liftDown(24);
+			auto.liftDown(5.0);
 			auto.rotateOut();
 			/*auto.straferight(62);
 			Timer.delay(1);
@@ -69,7 +69,7 @@ public class RightSwitchAuto extends Command{
 		}
 		
 		else {
-			auto.driveForward(216);
+			/*auto.driveForward(216);
 			Timer.delay(1);
 			auto.turnLeft(90);
 			Timer.delay(1);
@@ -84,7 +84,8 @@ public class RightSwitchAuto extends Command{
 			auto.liftUp(12.9);
 			Timer.delay(1);
 			auto.driveForward(36);
-			auto.openClaw();
+			auto.openClaw();*/
+			auto.driveForward(100);
 		}
 	
 		end();

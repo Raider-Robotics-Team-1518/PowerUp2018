@@ -37,7 +37,7 @@ public class RightScaleAuto extends Command{
 			auto.openClaw();
 		}
 		else {
-			auto.driveForward(216);
+			auto.driveForward(204);
 			Timer.delay(1);
 			auto.turnLeft(90);
 			Timer.delay(1);

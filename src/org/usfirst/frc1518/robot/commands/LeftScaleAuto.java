@@ -35,7 +35,7 @@ public class LeftScaleAuto extends Command{
 			 auto.openClaw();
 		}
 		 else {
-			 auto.driveForward(216);
+			 auto.driveForward(204);
 			Timer.delay(1);
 			auto.turnRight(90);
 			Timer.delay(1);

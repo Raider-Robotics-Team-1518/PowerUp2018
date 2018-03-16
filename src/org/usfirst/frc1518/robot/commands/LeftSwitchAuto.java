@@ -34,13 +34,27 @@ public class LeftSwitchAuto extends Command{
 			Timer.delay(1);
 			auto.openClaw();
 			Timer.delay(.25);
-			auto.driveBackward(6);
+			auto.rotateIn();
+			auto.driveBackward(12);
+			Timer.delay(1);
+			auto.turnLeft(90);
+			Timer.delay(1);
+			auto.driveForward(36);
+			Timer.delay(1);
+			auto.turnRight(90);
+			Timer.delay(1);
+			auto.driveForward(28);
+			Timer.delay(1);
+			auto.turnRight(85);
+			auto.liftDown(5.0);
+			auto.rotateOut();
+			/*auto.driveBackward(6);
 			Timer.delay(1);
 			auto.strafeLeft(40);
 			Timer.delay(1);
 			auto.turnRight(90);
 			Timer.delay(1);
-			auto.strafeLeft(30);
+			auto.strafeLeft(30);*/
 		}
 		
 		else if (fmscode.charAt(1) == 'L') {
@@ -54,7 +68,7 @@ public class LeftSwitchAuto extends Command{
 		}
 		
 		else {
-			auto.driveForward(216);
+			/*auto.driveForward(216);
 			Timer.delay(1);
 			auto.turnRight(90);
 			Timer.delay(1);
@@ -69,7 +83,8 @@ public class LeftSwitchAuto extends Command{
 			auto.liftUp(12.9);
 			Timer.delay(1);
 			auto.driveForward(36);
-			auto.openClaw();
+			auto.openClaw();*/
+			auto.driveForward(100);
 		}
 	
 		end();
