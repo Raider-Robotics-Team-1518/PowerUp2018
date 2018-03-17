@@ -22,6 +22,7 @@ public class MiddleSwitchAuto extends Command{
 		System.out.println("Starting Auto 2");
 		taskDone = false;
 		auto.rotateOut();
+		Timer.delay(5);
 		auto.driveForward(12);
 		Timer.delay(.5);
 		fmscode = DriverStation.getInstance().getGameSpecificMessage().toString();
@@ -51,6 +52,11 @@ public class MiddleSwitchAuto extends Command{
 			}
 		}
 		else {
+			// no FMS code
+			auto.strafeRight(48);
+			Timer.delay(.5);
+			auto.driveForward(60);
+			
 			end();
 		}
 		

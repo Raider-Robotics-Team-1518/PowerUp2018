@@ -37,6 +37,25 @@ public class RightScaleAuto extends Command{
 			auto.openClaw();
 		}
 		else {
+			
+			if (fmscode.charAt(0) == 'R') {
+				System.out.println("FMS code " + fmscode.charAt(0));
+				auto.driveForward(120);
+				Timer.delay(1);
+				auto.turnLeft(90);
+				Timer.delay(1);
+				auto.driveForward(15);
+				Timer.delay(1);
+				auto.openClaw();
+				Timer.delay(.25);
+				auto.rotateIn();
+				auto.driveBackward(12);
+				Timer.delay(1);
+			}
+			else {
+				auto.driveForward(100);
+			}
+			/*// Steps for cross field scale
 			auto.driveForward(204);
 			Timer.delay(1);
 			auto.turnLeft(90);
@@ -52,7 +71,7 @@ public class RightScaleAuto extends Command{
 			auto.liftUp(12.9);
 			Timer.delay(1);
 			auto.driveForward(18);
-			auto.openClaw();
+			auto.openClaw();   */
 		}
 	
 		end();

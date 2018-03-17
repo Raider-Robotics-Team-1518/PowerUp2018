@@ -24,6 +24,7 @@ public class MiddleSwitchNoDropAuto extends Command {
 		taskDone = false;
 		taskDone = false;
 		auto.rotateOut();
+		Timer.delay(5);
 		auto.driveForward(12);
 		Timer.delay(.5);
 		fmscode = DriverStation.getInstance().getGameSpecificMessage().toString();

@@ -24,6 +24,7 @@ public class LeftScaleAuto extends Command{
 		System.out.println("Starting Auto 5");
 		taskDone = false;
 		auto.rotateOut();
+		Timer.delay(.5);
 		fmscode = DriverStation.getInstance().getGameSpecificMessage().toString();
 		 if (fmscode.charAt(1) == 'L') {
 			 auto.driveAndLift(275,52);
@@ -35,6 +36,25 @@ public class LeftScaleAuto extends Command{
 			 auto.openClaw();
 		}
 		 else {
+			 
+				if (fmscode.charAt(0) == 'L') {
+					auto.driveForward(120);
+					Timer.delay(1);
+					auto.turnRight(90);
+					Timer.delay(1);
+					auto.driveForward(17.05);
+					Timer.delay(1);
+					auto.openClaw();
+					Timer.delay(.25);
+					auto.rotateIn();
+					auto.driveBackward(12);
+					Timer.delay(1);
+				}
+				else {
+					auto.driveForward(100);
+				}
+				
+/*//Steps to cross field for scale
 			 auto.driveForward(204);
 			Timer.delay(1);
 			auto.turnRight(90);
@@ -50,7 +70,8 @@ public class LeftScaleAuto extends Command{
 			auto.liftUp(12.9);
 			Timer.delay(1);
 			auto.driveForward(18);
-			auto.openClaw();
+			auto.openClaw();   */
+			 
 		 }
 	
 		end();
