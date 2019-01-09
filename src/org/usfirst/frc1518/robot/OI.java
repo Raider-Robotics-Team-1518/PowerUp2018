@@ -39,12 +39,14 @@ public static JoystickButton liftUp;
 public static JoystickButton liftDown;
 public static JoystickButton liftUp2;
 public static JoystickButton liftDown2;
+//public static JoystickButton fullLiftDown;
 public static JoystickButton climbUp;
 public static JoystickButton climbDown;
 public static JoystickButton turbo;
 public static  XboxController gp1;
 public static JoystickButton gp1ButtonA;
 public static JoystickButton gp1ButtonY;
+public static JoystickButton reset;
 
 
     public OI() {
@@ -58,6 +60,8 @@ public static JoystickButton gp1ButtonY;
     	liftUp2.whileHeld(new BoxLifter(true));	
     	liftDown2 = new JoystickButton(mainstick, 11);
     	liftDown2.whileHeld(new BoxLifter(false));
+    	//fullLiftDown = new JoystickButton(mainstick, 10);
+    	//fullLiftDown.whenPressed(new BoxLifter(false));
     	climbUp = new JoystickButton(mainstick, 6);
     	climbUp.whileHeld(new Climber(true));
     	climbDown = new JoystickButton(mainstick, 4);
@@ -74,11 +78,13 @@ public static JoystickButton gp1ButtonY;
     	gp1ButtonY = new JoystickButton(gp1, 4);
     	gp1ButtonA.whileHeld(new Climber(false));
     	gp1ButtonY.whileHeld(new Climber(true));
+    	reset = new JoystickButton(mainstick, 12);
+    	reset.whenPressed(new LiftCounterReset());
     	
     }
     
     public static void init() {
-    	SmartDashboard.putData("Autonomous Command", new Auto1());
+    	SmartDashboard.putData("Autonomous Command", new MiddleSwitchNoDropAuto());
         Robot.feedSpeed = mainstick.getThrottle();
     }
 }

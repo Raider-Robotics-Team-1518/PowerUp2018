@@ -22,7 +22,7 @@ public class Autonomous extends Subsystem {
 	double circumferenceInInches = 25.875;
 	int pulsesPerRotation = 1024;
 	//int pulsesPerRotation = 315;
-	double liftInPerSec = 8;
+	double liftInPerSec = 6;    // 8 in/sec didn't lift high enough
 	//public static RobotDrive drive;
 	double distanceToTravel = 0;
 	double startPosition = 0;
@@ -114,8 +114,8 @@ public class Autonomous extends Subsystem {
 		startPosition = ((Robot.rm.encoderLRear.get() + Robot.rm.encoderRRear.get()) / 2) ;
 		double targetPosition = (distance / circumferenceInInches * pulsesPerRotation);
 		while (hasDrivenFarEnough(startPosition, distance) == false) {
-			SmartDashboard.putNumber("Left Encoder Count", Robot.rm.encoderLRear.get());
-	    	SmartDashboard.putNumber("Right Encoder Count", Robot.rm.encoderRRear.get());
+			//SmartDashboard.putNumber("Left Encoder Count", Robot.rm.encoderLRear.get());
+	    	//SmartDashboard.putNumber("Right Encoder Count", Robot.rm.encoderRRear.get());
 			double drift = readGyro() / 10;
 			if (distance > 0) {
 				Robot.m_drive.driveCartesian(0, AUTO_DRIVE_POWER, -drift);  // FORWARD
@@ -139,8 +139,8 @@ public class Autonomous extends Subsystem {
 		//startPosition = ((Robot.rm.lift.getSensorCollection().getQuadraturePosition() + Robot.rm.climb.getSensorCollection().getQuadraturePosition()) / 2) ;
 		startPosition = ((Robot.rm.encoderLRear.get() + Robot.rm.encoderRRear.get()) / 2);
 		while (strafeFarEnough(startPosition, distance) == false) {
-	    	SmartDashboard.putNumber("Left Encoder Count", Robot.rm.encoderLRear.get());
-	    	SmartDashboard.putNumber("Right Encoder Count", Robot.rm.encoderRRear.get());
+	    	//SmartDashboard.putNumber("Left Encoder Count", Robot.rm.encoderLRear.get());
+	    	//SmartDashboard.putNumber("Right Encoder Count", Robot.rm.encoderRRear.get());
 			double drift = readGyro() / 10;
 			if (distance > 0) {
 				Robot.m_drive.driveCartesian(0.65, 0, -drift);  // RIGHT
@@ -217,27 +217,25 @@ public class Autonomous extends Subsystem {
 		// Without encoder on lift assembly, measurement is based on time
 		// To measure based on time, a given rate must be known - inches traveled per second
 		// Set the rate in liftInPerSec constant at top of class
-	public void liftUp(double height) {
-		
-		double liftTime = (height/liftInPerSec) * 1000;
-		double motorTime = 0;
-			while (motorTime <= liftTime) {
+	public void liftUp(double drumRotations) {
+		double startPos = Robot.rm.BoxSwitch.get();
+		double endPos = startPos + (drumRotations) * 15360;
+		// Adding timeout 
+		double runTime = Timer.getFPGATimestamp() + 4; 
+			while ((Robot.rm.BoxSwitch.get() < endPos) && (Timer.getFPGATimestamp() < runTime)) {
 				Robot.rm.lift.set(1.0);
 				Timer.delay(0.050);
-				motorTime = motorTime + 50;
 			}
 			
 			Robot.rm.lift.set(0);
 	}
 	
-	public void liftDown(double height) {
-	
-		double liftTime = (Math.abs(height)/liftInPerSec) * 1000;
-		double motorTime = 0;
-			while (motorTime <= liftTime) {
+	public void liftDown(double drumRotations) {
+	double startPos = Robot.rm.BoxSwitch.get();
+		double endPos = startPos - (Math.abs(drumRotations) * 15360);
+			while (Robot.rm.BoxSwitch.get() > endPos) {
 				Robot.rm.lift.set(-1.0);
 				Timer.delay(0.050);
-				motorTime = motorTime + 50;
 			}
 			
 			Robot.rm.lift.set(0);

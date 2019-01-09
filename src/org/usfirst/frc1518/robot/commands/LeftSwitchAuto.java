@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class Auto3 extends Command{
+public class LeftSwitchAuto extends Command{
 	Autonomous auto = new Autonomous();
 	boolean taskDone = false;
 
@@ -17,7 +17,7 @@ public class Auto3 extends Command{
 	String fmscode = DriverStation.getInstance().getGameSpecificMessage();
 	
 	
-	public Auto3() {
+	public LeftSwitchAuto() {
 		// TODO Auto-generated constructor stub
 	}
 	protected void execute() {
@@ -34,27 +34,57 @@ public class Auto3 extends Command{
 			Timer.delay(1);
 			auto.openClaw();
 			Timer.delay(.25);
-			auto.driveBackward(6);
+			auto.rotateIn();
+			auto.driveBackward(12);
+			Timer.delay(1);
+			auto.turnLeft(90);
+			Timer.delay(1);
+			auto.driveForward(36);
+			Timer.delay(1);
+			auto.turnRight(90);
+			Timer.delay(1);
+			auto.driveForward(28);
+			Timer.delay(1);
+			auto.turnRight(85);
+			auto.liftDown(5.0);
+			auto.rotateOut();
+			/*auto.driveBackward(6);
 			Timer.delay(1);
 			auto.strafeLeft(40);
 			Timer.delay(1);
 			auto.turnRight(90);
 			Timer.delay(1);
-			auto.strafeLeft(30);
+			auto.strafeLeft(30);*/
 		}
 		
 		else if (fmscode.charAt(1) == 'L') {
-		auto.driveAndLift(225,52);
-		Timer.delay(.5);
-		auto.turnRight(90);
-		Timer.delay(1);
-		auto.driveForward(8);
-		Timer.delay(1);
-		auto.openClaw();
+			auto.driveAndLift(275,52);
+			Timer.delay(.5);
+			auto.turnRight(90);
+			Timer.delay(1);
+			auto.driveForward(8);
+			Timer.delay(1);
+			auto.openClaw();
 		}
 		
 		else {
-		auto.driveForward(132);
+			/*auto.driveForward(216);
+			Timer.delay(1);
+			auto.turnRight(90);
+			Timer.delay(1);
+			auto.driveForward(252);
+			Timer.delay(1);
+			auto.turnLeft(90);
+			Timer.delay(1);
+			auto.driveForward(60);
+			Timer.delay(1);
+			auto.turnLeft(90);
+			Timer.delay(1);
+			auto.liftUp(12.9);
+			Timer.delay(1);
+			auto.driveForward(36);
+			auto.openClaw();*/
+			auto.driveForward(100);
 		}
 	
 		end();

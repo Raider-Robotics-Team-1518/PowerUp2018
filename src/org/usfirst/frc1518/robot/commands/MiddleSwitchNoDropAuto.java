@@ -1,6 +1,7 @@
 package org.usfirst.frc1518.robot.commands;
 
 import org.usfirst.frc1518.robot.Robot;
+import org.usfirst.frc1518.robot.RobotMap;
 import org.usfirst.frc1518.robot.subsystems.Autonomous;
 
 import edu.wpi.first.wpilibj.DriverStation;
@@ -9,63 +10,70 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class Auto6 extends Command{
+public class MiddleSwitchNoDropAuto extends Command {
 	Autonomous auto = new Autonomous();
 	boolean taskDone = false;
-
-		//FMS Code
 	String fmscode = DriverStation.getInstance().getGameSpecificMessage();
-	
-	
-	public Auto6() {
-		// TODO Auto-generated constructor stub
+
+	public MiddleSwitchNoDropAuto() {
+		
 	}
+	
 	protected void execute() {
-		System.out.println("Starting Auto 6");
+		System.out.println("Starting Test Drive");
 		taskDone = false;
+		taskDone = false;
+		auto.rotateOut();
+		Timer.delay(5);
+		auto.driveForward(12);
+		Timer.delay(.5);
 		fmscode = DriverStation.getInstance().getGameSpecificMessage().toString();
-		if (fmscode.charAt(1) == 'L') {
-			auto.closeClaw();
-			auto.rotateOut();
-			auto.driveForward(40);
-			auto.strafeLeft(99.7);
-			auto.driveForward(209.25);
-			auto.liftUp(72);
-			auto.strafeRight(18.9);
-			auto.driveForward(11.6);
-			Timer.delay(1);
-			auto.openClaw();
-		}
+		if (fmscode.length() > 0) {
+			if(fmscode.charAt(0) == 'L') {
+				//left side code
+				auto.strafeRight(70);
+			}
 		
+			else {
+				//right side code
+				auto.strafeLeft(70);
+			}
+		}
 		else {
-			auto.driveForward(132);
+			auto.strafeLeft(70);
 		}
-		
+	
+		Timer.delay(.5);
+		auto.driveForward(60);
+		Timer.delay(.5);
 		end();
 		
 	}
 	
 	protected void end(){
-		System.out.println("Auto Mode 6 Completed");
+		System.out.println("Test Drive Completed");
 		stop();
 	}
 
 	protected void interrupted() {
 		stop();
-		System.out.println("Auto Mode 6 Interrupted");
+		System.out.println("Test Drive Interrupted");
 	}
 
     public void stop() {
-		System.out.println("Auto Mode 6 Stopped");
+		System.out.println("Test Drive Stopped");
     	Robot.m_drive.driveCartesian(0, 0, 0);
     	taskDone = true;
     	
     }
     
-@Override
+	
+
+	@Override
 	protected boolean isFinished() {
-		System.out.println("Auto Mode 6 isFinished");
+		System.out.println("Test Drive isFinished");
 		return taskDone;
+		
 	}
 
 }

@@ -61,7 +61,7 @@ public class RobotMap {
 	public static WPI_TalonSRX climb;
 	
 				//Test Robot
-	public static VictorSP testLift;
+	public static WPI_VictorSPX testLift;
 	//public static VictorSP testclimb;
 	
 		//Solenoids
@@ -72,12 +72,8 @@ public class RobotMap {
 	public static Solenoid solenoid4;
 	public static Solenoid solenoid5;
 	
-		//Limit Switches
-	public static DigitalInput BoxSwitch;
-	public static DigitalInput ClimbSwitch;
-
-
 		//Encoders
+	public static Encoder BoxSwitch;
 	public static Encoder encoderLRear;
 	public static Encoder encoderRRear;
 	
@@ -107,7 +103,7 @@ public class RobotMap {
     		//Encoders
     	encoderLRear = new Encoder(0, 1, true, Encoder.EncodingType.k1X);
     	encoderRRear = new Encoder(2, 3, false, Encoder.EncodingType.k1X);
-    	
+    	BoxSwitch = new Encoder(4,5,false,Encoder.EncodingType.k1X);
     	
     		//Aux controllers
     			//Climb
@@ -124,7 +120,7 @@ public class RobotMap {
     	//lift.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute, 2, 3);
 
     					//Test Robot
-    	testLift = new VictorSP(0);
+    	testLift = new WPI_VictorSPX(9);
 
     		// Pneumatics
     	comp0 = new Compressor(0);
@@ -138,12 +134,6 @@ public class RobotMap {
     		//Digital outputs for LEDs.
     	dio8 = new DigitalOutput(8);
     	dio9 = new DigitalOutput(9);
-
-    		//Limit Switches
-    	BoxSwitch = new DigitalInput(4);
-    	ClimbSwitch = new DigitalInput(5);
-
-
 			//Gyro 
 		rioGyro = new ADXRS450_Gyro();
 		rioAccel = new BuiltInAccelerometer();

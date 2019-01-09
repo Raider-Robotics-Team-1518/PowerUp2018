@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class Auto4 extends Command{
+public class RightSwitchAuto extends Command{
 	Autonomous auto = new Autonomous();
 	boolean taskDone = false;
 
@@ -17,7 +17,7 @@ public class Auto4 extends Command{
 	String fmscode = DriverStation.getInstance().getGameSpecificMessage();
 	
 	
-	public Auto4() {
+	public RightSwitchAuto() {
 		// TODO Auto-generated constructor stub
 	}
 	protected void execute() {
@@ -32,7 +32,7 @@ public class Auto4 extends Command{
 			Timer.delay(1);
 			auto.turnLeft(90);
 			Timer.delay(1);
-			auto.driveForward(6);
+			auto.driveForward(15);
 			Timer.delay(1);
 			auto.openClaw();
 			Timer.delay(.25);
@@ -48,7 +48,7 @@ public class Auto4 extends Command{
 			auto.driveForward(28);
 			Timer.delay(1);
 			auto.turnLeft(85);
-			auto.liftDown(24);
+			auto.liftDown(5.0);
 			auto.rotateOut();
 			/*auto.straferight(62);
 			Timer.delay(1);
@@ -59,7 +59,7 @@ public class Auto4 extends Command{
 		
 		else if (fmscode.charAt(1) == 'R') {
 		System.out.println("FMS code " + fmscode.charAt(1));
-		auto.driveAndLift(120,52);
+		auto.driveAndLift(275,52);
 		Timer.delay(.5);
 		auto.turnLeft(90);
 		Timer.delay(1);
@@ -69,7 +69,23 @@ public class Auto4 extends Command{
 		}
 		
 		else {
-		auto.driveForward(132);
+			/*auto.driveForward(216);
+			Timer.delay(1);
+			auto.turnLeft(90);
+			Timer.delay(1);
+			auto.driveForward(252);
+			Timer.delay(1);
+			auto.turnRight(90);
+			Timer.delay(1);
+			auto.driveForward(60);
+			Timer.delay(1);
+			auto.turnRight(90);
+			Timer.delay(1);
+			auto.liftUp(12.9);
+			Timer.delay(1);
+			auto.driveForward(36);
+			auto.openClaw();*/
+			auto.driveForward(100);
 		}
 	
 		end();

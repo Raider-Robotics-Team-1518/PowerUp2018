@@ -70,7 +70,7 @@ public class Robot extends TimedRobot {
 	
 		// AUX "encoders"
 	public static int boxSwitch;
-	public static int climbSwitch;
+	public static double testDist;
 
 	SendableChooser<Command> m_chooser = new SendableChooser<>();
 
@@ -101,10 +101,10 @@ public class Robot extends TimedRobot {
         rm.encoderRRear.reset();
         turbo=false;
         boxSwitch = 1;
-        climbSwitch = 0;
-
+        rm.BoxSwitch.reset();
+        
         //Camera setup
-/*        cam0 = CameraServer.getInstance().startAutomaticCapture();
+        /*cam0 = CameraServer.getInstance().startAutomaticCapture();
         cam0.setResolution(160, 120);
         cam0.setFPS(15);
         cam0.setBrightness(35);  */
@@ -113,18 +113,25 @@ public class Robot extends TimedRobot {
         cam1.setBrightness(40);
 
         //Get Alliance from FMS
-        alliance = DriverStation.getInstance().getAlliance().toString();
-        SmartDashboard.putString("Alliance", alliance);
+        //alliance = DriverStation.getInstance().getAlliance().toString();
+        //SmartDashboard.putString("Alliance", alliance);
         
         // instantiate the command used for the autonomous period
         m_chooser = new SendableChooser();
         m_chooser.addDefault("No Auto", null);
-        m_chooser.addObject("Opposite Switch No Drop", new Auto1());
-        m_chooser.addObject("Home Switch From Middle", new Auto2());
-        m_chooser.addObject("Robot Left (Switch)", new Auto3());
-        m_chooser.addObject("Robot Right (Switch)", new Auto4());
+        m_chooser.addObject("Only Cross Line", new CrossLineOnlyAuto());
+        m_chooser.addObject("Opposite Switch No Drop", new MiddleSwitchNoDropAuto());
+        m_chooser.addObject("Home Switch From Middle", new MiddleSwitchAuto());
+        m_chooser.addObject("Robot Left (Switch)", new LeftSwitchAuto());
+        m_chooser.addObject("Robot Right (Switch)", new RightSwitchAuto());
+        m_chooser.addObject("Robot Left (Scale)", new LeftScaleAuto());;
+        m_chooser.addObject("Robot Right (Scale)",  new RightScaleAuto());
+        m_chooser.addObject("TestAuto",  new TestAuto());
         SmartDashboard.putData("AutoMode", m_chooser);
 
+		//testDist = SmartDashboard.getNumber("Test Distance", 0);
+
+        
         //SETTING BRAKE MODE ON DRIVE MOTORS
         rm.driveTrainFrontLeftWheel.setNeutralMode(NeutralMode.Brake);
         rm.driveTrainFrontRightWheel.setNeutralMode(NeutralMode.Brake);
@@ -134,6 +141,7 @@ public class Robot extends TimedRobot {
         rm.testdriveTrainFrontRightWheel.setNeutralMode(NeutralMode.Brake);
         rm.testdriveTrainRearLeftWheel.setNeutralMode(NeutralMode.Brake);
         rm.testdriveTrainRearRightWheel.setNeutralMode(NeutralMode.Brake);
+        rm.testLift.setNeutralMode(NeutralMode.Brake);
         rm.lift.setNeutralMode(NeutralMode.Brake);
         rm.climb.setNeutralMode(NeutralMode.Brake);
         rm.lift.setInverted(true);
@@ -161,9 +169,12 @@ public class Robot extends TimedRobot {
 
     public void autonomousInit() {
         // schedule the autonomous command (example)
+    	//rm.BoxSwitch.reset();
         setLights();
     	m_drive.setSafetyEnabled(true);
-
+    	//SmartDashboard.getData("Test-Distance");
+		//testDist = SmartDashboard.getNumber("Test-Distance", 0);
+		System.out.println(testDist);
         autoMode = (Command) m_chooser.getSelected();
         if (autoMode != null) autoMode.start();
     }
@@ -180,12 +191,12 @@ public class Robot extends TimedRobot {
         // teleop starts running. If you want the autonomous to
         // continue until interrupted by another command, remove
         // this line or comment it out.
+    	//rm.BoxSwitch.reset();
         if (autoMode != null) autoMode.cancel();
     	rm.rioGyro.reset();
         setLights();
     	m_drive.setSafetyEnabled(true);
     	boxSwitch = 0;
-        climbSwitch = 0;
     }
 
     /**
@@ -193,13 +204,15 @@ public class Robot extends TimedRobot {
      */
     public void teleopPeriodic() {
         Scheduler.getInstance().run();
+        //SmartDashboard.putNumber("Box Encoder", rm.BoxSwitch.get());
+        //SmartDashboard.putNumber("Drum Rotations", rm.BoxSwitch.get()/16384.0);
         //turbo = true;
-        if (Robot.oi.turbo.get()) {
-        	xDrive = 0.85;
+        if (oi.turbo.get()) {
+        	xDrive = .85;  //0.85;				CHANGE FOR MAIN ROBOT
         }
         
         else {
-        	xDrive = 0.65;
+        	xDrive = .65;  //0.65;				CHANGE FOR MAIN ROBOT
         }
         
     	//COMPUTE JOYSTICK VALUES GIVING DEADSPACE
@@ -228,9 +241,9 @@ public class Robot extends TimedRobot {
     	}
     	
     	double gyroAngle = rm.rioGyro.getAngle();
-    	SmartDashboard.putNumber("Gyro Angle", gyroAngle);
-    	SmartDashboard.putNumber("Left Encoder Count", rm.encoderLRear.get());    // PUT BACK
-    	SmartDashboard.putNumber("Right Encoder Count", rm.encoderRRear.get());  //  PUT BACK
+    	//SmartDashboard.putNumber("Gyro Angle", gyroAngle);
+    	//SmartDashboard.putNumber("Left Encoder Count", rm.encoderLRear.get());    // PUT BACK
+    	//SmartDashboard.putNumber("Right Encoder Count", rm.encoderRRear.get());  //  PUT BACK
     	m_drive.driveCartesian((Math.pow(mainstickX, 3) * xDrive), (Math.pow(mainstickY, 3) * -xDrive), (Math.pow(mainstickZ, 3) * .6), 0.0);
     	//RobotMap.dio8.pulse(1);
     	//RobotMap.dio9.pulse(0);
